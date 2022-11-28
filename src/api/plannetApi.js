@@ -102,7 +102,7 @@ const plannetApi = {
         const object = {
             cmd : "boardList"
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardList", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/list", object, HEADER);
     },
     // 자유게시판 글 작성
     boardCreate: async function(id, title, detail, isChecked){
@@ -112,21 +112,21 @@ const plannetApi = {
             detail : detail,
             isChecked : isChecked
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardCreate", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/write_board", object, HEADER);
     },
     // 글 조회수 
     boardViews:async function(num){
         const object = {
             num: num
         };
-        return await axios.post(PLANNET_DOMAIN+ "BoardViews", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN+ "board/views_up", object, HEADER);
     },
     // 게시판 내용보기
     boardLoad: async function(num){
         const object = {
             num : num
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardLoad", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/post_view", object, HEADER);
     },
     // 글 삭제
     boardDelete: async function(num) {
@@ -145,21 +145,21 @@ const plannetApi = {
         };
         return await axios.post(PLANNET_DOMAIN + "BoardEdit", object, HEADER);
     },
-    // 좋아요 수 불러오기
-    likeCnt: async function(id, num) {
-        const object = {
-            id: id,
-            num: num
-        };
-        return await axios.post(PLANNET_DOMAIN + "LikeCnt", object, HEADER);
-    },
+    // // 좋아요 수 불러오기
+    // likeCnt: async function(id, num) {
+    //     const object = {
+    //         id: id,
+    //         num: num
+    //     };
+    //     return await axios.post(PLANNET_DOMAIN + "LikeCnt", object, HEADER);
+    // },
     // 해당 게시물에 좋아요를 눌렀는지 체크
     likeChecked: async function(id, num) {
         const object = {
             id: id,
             num: num
         };
-        return await axios.post(PLANNET_DOMAIN + "LikeChecked", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/like_checked", object, HEADER);
     },
     // 해당 게시물에 댓글 작성
     boardCommentCreate: async function(bnum, id, detail){
