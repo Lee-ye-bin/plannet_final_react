@@ -123,12 +123,6 @@ const Box = styled.div`
 const Nav = () => {
     const userId = window.localStorage.getItem("userId");
     const [userInfo, setUserInfo] = useState("");
-    // const [userImgUrl, setUserImgUrl] = useState('');
-    // const [userNickname, setUserNickname] = useState("");
-    // const [userEmail, setUserEmail] = useState("");
-    // const [userPhone, setUserPhone] = useState("");
-    // const [userSNS, setUserSNS] = useState("");
-    // const [userPro, setUserPro] = useState("");
 
     const [num, setNum] = useState('0');
     const pes = {width: num+'%'};
@@ -136,10 +130,8 @@ const Nav = () => {
     useEffect(() => {
         const userInfoLoad = async() => {
             try{
-                const response = await Api.userInfoLoad(userId);
+                const response = await Api.userNavInfo(userId);
                 setUserInfo(response.data[0]);
-                const resNum = await Api.userDo(userId);
-                setNum(resNum.data.pes);
             } catch(e){
                 console.log(e);
             }

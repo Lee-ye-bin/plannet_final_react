@@ -61,10 +61,8 @@ const DoLogin = () => {
 
     const onClickLogin = async() => {
         try {
-            // 로그인을 위한 axios 호출
             const res = await Api.userLogin(inputId, inputPw);
-            
-            if(res.data.result === "OK") {
+            if(res.data) {
                 window.localStorage.setItem("isLogin", "true");
                 window.localStorage.setItem("userId", inputId);
                 window.localStorage.setItem("userPw", inputPw);
@@ -74,8 +72,8 @@ const DoLogin = () => {
                 setModalOpen(true);
             }
         } catch (e) {
+            setCommnet(e);
             setModalOpen(true);
-            console.log("e");
         }
     }
 

@@ -1,7 +1,7 @@
 
 import axios from "axios";
 const HEADER = 'application/json';
-const PLANNET_DOMAIN = "http://localhost:8090/Plannet_servlet/";
+const PLANNET_DOMAIN = "http://localhost:8111/";
 
 const plannetApi = {
     // 로그인 기능
@@ -10,7 +10,7 @@ const plannetApi = {
             id: id,
             pwd: pw
         };
-        return await axios.post(PLANNET_DOMAIN + "LoginServlet", loginObj, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/login", loginObj, HEADER);
     },
     // 회원 가입
     memberReg: async function(id, pwd, name, nickname, email, tel, join_date) {
@@ -177,12 +177,19 @@ const plannetApi = {
         };
         return await axios.post(PLANNET_DOMAIN + "BoardCommentLoad", object, HEADER);
     },
-    // userInfo 불러오기
+    // userInfo 불러오기 - userinfoController-userinfoload
     userInfoLoad: async function(id){
         const object = {
             id:id
         };
-        return await axios.post(PLANNET_DOMAIN + "UserInfoLoad", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "user/info_load", object, HEADER);
+    },
+    // NavInfo 불러오기 - userinfoController-NavInfo
+    userNavInfo: async function(id){
+        const object = {
+            id:id
+        };
+        return await axios.post(PLANNET_DOMAIN + "/nav_info", object, HEADER);
     },
     // userInfo 저장하기
     userInfoSave: async function(id, nickname, email, phone, sns, profile) {
