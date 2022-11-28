@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Api from "../api/plannetApi";
 
 
-const Memo = () => {
+const Memo = ({props}) => {
     const getId = window.localStorage.getItem("userId");
     const [memoText, setMemoText] = useState('');
     
@@ -11,16 +11,8 @@ const Memo = () => {
     };
 
     useEffect(() => {
-        const memoList = async() => {
-            try{
-                const response = await Api.memberMemo(getId);
-                setMemoText(response.data[0].memo);
-            } catch(e){
-                console.log(e);
-            }
-        }
-        memoList();
-    },[getId]);
+        setMemoText(props);
+    },[props]);
 
     const onBlurSave = async() => {
         await Api.memberMemoSave(getId, memoText);
