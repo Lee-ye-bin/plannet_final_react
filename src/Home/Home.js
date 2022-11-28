@@ -101,10 +101,8 @@ const Section = styled.div`
     }
 `;
 
-
 const Home = () => {
     const getId = window.localStorage.getItem("userId");
-    console.log(getId);
     const [personalData, setPersonalData] = useState([]);
     const [doMark, setDoMark] = useState([]);
     const [endMark, setEndMark] = useState([]);
@@ -121,8 +119,6 @@ const Home = () => {
         }
         personalHome();
     },[getId]);
-
-    console.log(personalData);
 
     return (
         <Wrap>

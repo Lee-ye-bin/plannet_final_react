@@ -223,14 +223,12 @@ const Write = () => {
         setDiary(e.target.value);
     }
     const onClickAddList = () => {
-        console.log();
         const nextPlanList = planList.concat({
             key: planList[planList.length-1].key+1,
             checked: false,
             text: "일정을 입력해주세요.",
             deleted: false
         });
-        console.log(nextPlanList);
         setPlanList(nextPlanList);
     }
 
