@@ -224,7 +224,7 @@ const Write = () => {
     }
     const onClickAddList = () => {
         const nextPlanList = planList.concat({
-            id: planList.length,
+            key: planList[planList.length-1].key+1,
             checked: false,
             text: "일정을 입력해주세요.",
             deleted: false
@@ -236,8 +236,8 @@ const Write = () => {
         const writeLoad = async() => {
             try{
                 const response = await Api.writeLoad(getId, date);
-                setPlanList(response.data[0].plan);
-                setDiary(response.data[0].diary);
+                setPlanList(response.data[0]);
+                setDiary(response.data[1]);
             } catch(e){
                 console.log(e);
             }

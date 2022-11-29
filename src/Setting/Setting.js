@@ -194,15 +194,15 @@ const Setting = () => {
         const userInfoLoad = async() => {
             try{
                 const response = await Api.userInfoLoad(userId);
-                setUserNickname(response.data[0].nickname);
-                setChangeEmail(response.data[0].email);
-                setUserEmail(response.data[0].email);
-                setChangePhone(response.data[0].phone);
-                setUserPhone(response.data[0].phone);
-                setUserSNS(response.data[0].sns);
-                setUserPro(response.data[0].profile);
-                setUserImgName(response.data[0].img);
-                setUserImgUrl({backgroundImage: "url(https://khprojectplannet.s3.ap-northeast-2.amazonaws.com/" + response.data[0].img + ")"});
+                setUserNickname(response.data[0]);
+                setChangeEmail(response.data[3]);
+                setUserEmail(response.data[3]);
+                setChangePhone(response.data[5]);
+                setUserPhone(response.data[5]);
+                setUserSNS(response.data[4]);
+                setUserPro(response.data[2]);
+                setUserImgName(response.data[6]);
+                setUserImgUrl({backgroundImage: "url(https://khprojectplannet.s3.ap-northeast-2.amazonaws.com/" + response.data[6] + ")"});
             } catch(e){
                 console.log(e);
             }

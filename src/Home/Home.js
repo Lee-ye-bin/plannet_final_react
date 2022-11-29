@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Calendar from './Calendar';
 import Nav from '../Utill/Nav';
 import Memo from './Memo';
 import List from './List';
-import Quote from './Quote';
+import Api from "../api/plannetApi";
 
 const Wrap = styled.div`
     width: 1130px;
@@ -102,28 +102,46 @@ const Section = styled.div`
 `;
 
 const Home = () => {
+    const getId = window.localStorage.getItem("userId");
+    const [personalData, setPersonalData] = useState([]);
+    const [doMark, setDoMark] = useState([]);
+    const [endMark, setEndMark] = useState([]);
+    useEffect(() => {
+        const personalHome = async() => {
+            try{
+                const response = await Api.personalHome(getId);
+                setPersonalData(response.data)
+                setDoMark(response.data.planMark[0]);
+                setEndMark(response.data.planMark[1]);
+            } catch(e){
+            console.log(e);
+            }
+        }
+        personalHome();
+    },[getId]);
+
     return (
         <Wrap>
             <Nav/>
             <Section>
                 <div className="plan">
                     <h2>Plan it</h2>
-                    <Calendar/>
+                    <Calendar doMark={doMark} endMark={endMark}/>
                 </div>
                 <div className='etc'>
                     <div className='memo'>
                         <h2>Memo</h2>
-                        <Memo/>
+                        <Memo props={personalData.memo}/>
                     </div>
                     <div className='moti'>
                         <h2>Motivation</h2>
-                        <Quote/>
+                        <p>{personalData.quote}</p>
                     </div>
                 </div>
                 <div className="list">
                     <h2>List</h2>
                     <div className="history"></div>
-                    <List/>
+                    <List props={personalData.list}/>
                 </div>
             </Section>
             <div className="copy">&#169; Plannet.</div>
@@ -132,3 +150,5 @@ const Home = () => {
 }
 
 export default Home;
+
+

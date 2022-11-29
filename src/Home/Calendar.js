@@ -5,10 +5,10 @@ import 'react-calendar/dist/Calendar.css'; // css import
 import './Calendar.css';
 import Api from "../api/plannetApi";
 
-const CalEx = () => {
+const Cal = ({doMark, endMark}) => {
     const [value, setValue] = useState(new Date());
-    const [doMark, setDoMark] = useState([]);
-    const [endMark, setEndMark] = useState([]);
+    
+
 
     //날짜 클릭시 해당날짜의 write로 이동
     const dayIn = (value) => {
@@ -16,20 +16,7 @@ const CalEx = () => {
         const link = "/write/" + selectDate;
         window.location.replace(link);
     }
-    //일정이 있는 날짜를 불러옴
-    const getId = window.localStorage.getItem("userId");
-    useEffect(() => {
-        const planLoad = async() => {
-            try{
-                const response = await Api.planMark(getId);
-                setEndMark(response.data.planMark[0]);
-                setDoMark(response.data.planMark[1]);
-            } catch(e){
-                console.log(e);
-            }
-        }
-    planLoad();
-    },[getId]);
+
 
     return(
         <div>
@@ -64,4 +51,4 @@ const CalEx = () => {
     );
 }
 
-export default CalEx;
+export default Cal;
