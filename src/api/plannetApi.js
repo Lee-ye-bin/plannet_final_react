@@ -187,7 +187,7 @@ const plannetApi = {
             sns: sns,
             profile: profile
         };
-        return await axios.post(PLANNET_DOMAIN + "UserInfoSave", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "user/info_save", object, HEADER);
     },
     userImgSave: async function(id, imgName) {
         const object = {
