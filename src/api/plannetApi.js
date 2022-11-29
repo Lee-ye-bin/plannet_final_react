@@ -88,7 +88,7 @@ const plannetApi = {
         const object = {
             cmd : "boardList"
         };
-        return await axios.post(PLANNET_DOMAIN + "board/list", object, HEADER);
+        return await axios.get(PLANNET_DOMAIN + "board/list", HEADER);
     },
     // 자유게시판 글 작성
     boardCreate: async function(id, title, detail, isChecked){
