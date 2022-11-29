@@ -112,7 +112,7 @@ const plannetApi = {
             detail : detail,
             isChecked : isChecked
         };
-        return await axios.post(PLANNET_DOMAIN + "board/write_board", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/write", object, HEADER);
     },
     // 글 조회수 
     boardViews:async function(num){
