@@ -47,7 +47,7 @@ const plannetApi = {
             email : email,
             type : type
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberFind", reg, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/find_check", reg, HEADER);
     },
     // 새 비밀번호 저장
     memberNewPwd: async function(id, pwd){
@@ -55,7 +55,7 @@ const plannetApi = {
             id : id,
             pwd : pwd
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberNewPwd", reg, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/new_pwd", reg, HEADER);
     },
     // 회원 메모 저장
     memberMemoSave: async function(id, memo) {
@@ -181,7 +181,7 @@ const plannetApi = {
             sns: sns,
             profile: profile
         };
-        return await axios.post(PLANNET_DOMAIN + "UserInfoSave", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "user/info_save", object, HEADER);
     },
     userImgSave: async function(id, imgName) {
         const object = {
