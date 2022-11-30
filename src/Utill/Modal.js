@@ -11,7 +11,7 @@ const Modal = (props) => {
 
     const onClickLogout = () => {
         window.localStorage.setItem("userId", "");
-        window.localStorage.setItem("userPw", "");
+        window.Item("userPw", "");
         window.localStorage.setItem("isLogin", "false");
         window.location.replace("/");
     }
