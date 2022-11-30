@@ -1,7 +1,7 @@
 
 import axios from "axios";
 const HEADER = 'application/json';
-const PLANNET_DOMAIN = "http://localhost:8211/";
+const PLANNET_DOMAIN = "http://localhost:8111/";
 
 const plannetApi = {
     // 로그인 기능
