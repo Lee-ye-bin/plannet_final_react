@@ -130,12 +130,11 @@ const Board = () => {
     const [boardNo, setBoardNo] = useState();
 
     //날짜 클릭시 해당 번호의 postView로 이동
-    const onClickBoard = (boardNo, writerId) => {
+    const onClickBoard = (boardNo) => {
         console.log(boardNo);
-        const link = "/postView/" + boardNo;
+        const link = "board/post_view/" + boardNo;
         window.location.assign(link);
         window.localStorage.setItem("boardNo",boardNo);
-        window.localStorage.setItem("writerId",writerId);
     }
 
     // boardList 불러오기
@@ -143,6 +142,7 @@ const Board = () => {
         const boardData = async () => {
             try {
                 const response = await Api.boardList();
+                
                 setBoardList(response.data);
                 console.log(response.data);
             } catch (e) {
@@ -170,16 +170,17 @@ const Board = () => {
                             <th>Views</th>
                             <th>Date</th>
                         </tr>
-                        {boardList.slice(offset, offset + limit).map(({num, title, nickname, views, date, id}) => (
-                            <tr key={num}>
-                                <td>{num}</td>
-                                <td onChange={setBoardNo} onClick={()=> onClickBoard(num, id)}>{title}</td>
+                        {boardList.slice(offset, offset + limit).map(({boardNo, title, nickname, views, writeDate}) => (
+                            <tr key={boardNo}>
+                                <td>{boardNo}</td>
+                                <td onChange={setBoardNo} onClick={()=> onClickBoard(boardNo)}>{title}</td>
                                 <td>{nickname}</td>
                                 <td>{views}</td>
-                                <td>{(date).substring(0,10)}</td>
+                                <td>{writeDate.substring(0, 10)}</td>
                             </tr>     
                         ))}
                     </table>
+
                 </div>
                 <div className="util_box">
                     <ul className="page_list">

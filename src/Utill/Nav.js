@@ -123,15 +123,13 @@ const Box = styled.div`
 const Nav = () => {
     const userId = window.localStorage.getItem("userId");
     const [userInfo, setUserInfo] = useState("");
-
-    const [num, setNum] = useState('0');
-    const pes = {width: num+'%'};
-
+    
     useEffect(() => {
         const userInfoLoad = async() => {
             try{
                 const response = await Api.userNavInfo(userId);
-                setUserInfo(response.data[0]);
+                setUserInfo(response.data.userInfo);
+                // setUserInfo();
             } catch(e){
                 console.log(e);
             }
@@ -168,20 +166,20 @@ const Nav = () => {
                 <h2>Let's plan it!</h2>
             </div>
             <div className="userinfo">
-                <div className="userImgBox" style={{backgroundImage: "url('https://khprojectplannet.s3.ap-northeast-2.amazonaws.com/"+ userInfo.img +"')"}}/>
-                <p className="userName">{userInfo.nickname}</p>
-                <p className="userId">&#40;{userId}&#41;</p>
-                <div className="userPro1">{userInfo.profile}</div>
+                <div className="userImgBox" style={{backgroundImage: "url('https://khprojectplannet.s3.ap-northeast-2.amazonaws.com/"+ userInfo[6] +"')"}}/>
+                <p className="userName">{userInfo[0]}</p>
+                <p className="userId"># {userInfo[1]}</p>
+                <div className="userPro1">{userInfo[2]}</div>
                 <div className="pes">
                     <p>달성률</p>
                     <div className="chartBackground">
-                        <div className="chartBar" style={pes}>{pes.width}</div>
+                        <div className="chartBar" style={{width: userInfo[7]+'%'}}>{userInfo[7]}%</div>
                     </div>
                 </div>
                 <div className="userPro2">
-                    <p>Email : {userInfo.email}</p>
-                    <p>{userInfo.phone? <p>Phone : {userInfo.phone}</p> : <p>Phone : - </p> }</p>
-                    {userInfo.sns? <p>SNS : @{userInfo.sns}</p> : <p>SNS : - </p> }
+                    <p>Email : {userInfo[3]}</p>
+                    <p>{userInfo[5]? <p>Phone : {userInfo[5]}</p> : <p>Phone : - </p> }</p>
+                    {userInfo[4]? <p>SNS : @{userInfo[4]}</p> : <p>SNS : - </p> }
                 </div>
                 <ul className="menu">
                     <li><Link to="/home">마이페이지</Link></li>

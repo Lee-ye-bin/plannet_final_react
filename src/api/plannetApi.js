@@ -1,7 +1,7 @@
 
 import axios from "axios";
 const HEADER = 'application/json';
-const PLANNET_DOMAIN = "http://localhost:8111/";
+const PLANNET_DOMAIN = "http://localhost:8211/";
 
 const plannetApi = {
     // 로그인 기능
@@ -47,7 +47,7 @@ const plannetApi = {
             email : email,
             type : type
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberFind", reg, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/find_check", reg, HEADER);
     },
     // 새 비밀번호 저장
     memberNewPwd: async function(id, pwd){
@@ -55,14 +55,7 @@ const plannetApi = {
             id : id,
             pwd : pwd
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberNewPwd", reg, HEADER);
-    },
-    // 회원 메모 조회
-    memberMemo: async function(id) {
-        const object = {
-            id : id
-        };
-        return await axios.post(PLANNET_DOMAIN + "MemberMemo", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/new_pwd", reg, HEADER);
     },
     // 회원 메모 저장
     memberMemoSave: async function(id, memo) {
@@ -71,13 +64,6 @@ const plannetApi = {
             memo: memo
         };
         return await axios.post(PLANNET_DOMAIN + "MemberMemoSave", object, HEADER);
-    },
-    // 명언 랜덤 출력
-    quoteRandom: async function(num) {
-        const object = {
-            num: num,
-        };
-        return await axios.post(PLANNET_DOMAIN + "QuoteRandom", object, HEADER);
     },
     // 플랜리스트.다이어리 저장
     writeSave: async function(id, date, planList, diary) {
@@ -95,14 +81,14 @@ const plannetApi = {
             id: id,
             date: date
         };
-        return await axios.post(PLANNET_DOMAIN + "WriteLoad", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "write/load", object, HEADER);
     },
     // 자유게시판 목록 출력
     boardList: async function(){
         const object = {
             cmd : "boardList"
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardList", object, HEADER);
+        return await axios.get(PLANNET_DOMAIN + "board/list", HEADER);
     },
     // 자유게시판 글 작성
     boardCreate: async function(id, title, detail, isChecked){
@@ -112,21 +98,21 @@ const plannetApi = {
             detail : detail,
             isChecked : isChecked
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardCreate", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/write", object, HEADER);
     },
     // 글 조회수 
     boardViews:async function(num){
         const object = {
             num: num
         };
-        return await axios.post(PLANNET_DOMAIN+ "BoardViews", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN+ "board/views_up", object, HEADER);
     },
     // 게시판 내용보기
     boardLoad: async function(num){
         const object = {
             num : num
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardLoad", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/post_view", object, HEADER);
     },
     // 글 삭제
     boardDelete: async function(num) {
@@ -145,21 +131,21 @@ const plannetApi = {
         };
         return await axios.post(PLANNET_DOMAIN + "BoardEdit", object, HEADER);
     },
-    // 좋아요 수 불러오기
-    likeCnt: async function(id, num) {
-        const object = {
-            id: id,
-            num: num
-        };
-        return await axios.post(PLANNET_DOMAIN + "LikeCnt", object, HEADER);
-    },
+    // // 좋아요 수 불러오기
+    // likeCnt: async function(id, num) {
+    //     const object = {
+    //         id: id,
+    //         num: num
+    //     };
+    //     return await axios.post(PLANNET_DOMAIN + "LikeCnt", object, HEADER);
+    // },
     // 해당 게시물에 좋아요를 눌렀는지 체크
     likeChecked: async function(id, num) {
         const object = {
             id: id,
             num: num
         };
-        return await axios.post(PLANNET_DOMAIN + "LikeChecked", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/like_checked", object, HEADER);
     },
     // 해당 게시물에 댓글 작성
     boardCommentCreate: async function(bnum, id, detail){
@@ -189,7 +175,7 @@ const plannetApi = {
         const object = {
             id:id
         };
-        return await axios.post(PLANNET_DOMAIN + "/nav_info", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "user/nav_info", object, HEADER);
     },
     // userInfo 저장하기
     userInfoSave: async function(id, nickname, email, phone, sns, profile) {
@@ -201,7 +187,7 @@ const plannetApi = {
             sns: sns,
             profile: profile
         };
-        return await axios.post(PLANNET_DOMAIN + "UserInfoSave", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "user/info_save", object, HEADER);
     },
     userImgSave: async function(id, imgName) {
         const object = {
@@ -210,26 +196,12 @@ const plannetApi = {
         };
         return await axios.post(PLANNET_DOMAIN + "UserImgSave", object, HEADER);
     },
-    // 달성률
-    userDo: async function(id) {
+    // 개인 home/달력/주간일정/메모/명언 출력
+    personalHome: async function(id) {
         const object = {
             id: id
         };
-        return await axios.post(PLANNET_DOMAIN + "UserDo", object, HEADER);
-    },
-    // 달력
-    planMark: async function(id) {
-        const object = {
-            id: id
-        };
-        return await axios.post(PLANNET_DOMAIN + "PlanMark", object, HEADER);
-    },
-    // 주간일정 출력
-    weekList: async function(id) {
-        const object = {
-            id: id
-        }
-        return await axios.post(PLANNET_DOMAIN + "WeekList", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "home/personal", object, HEADER);
     }
 }
 
