@@ -85,9 +85,6 @@ const plannetApi = {
     },
     // 자유게시판 목록 출력
     boardList: async function(){
-        const object = {
-            cmd : "boardList"
-        };
         return await axios.get(PLANNET_DOMAIN + "board/list", HEADER);
     },
     // 자유게시판 글 작성
@@ -105,14 +102,11 @@ const plannetApi = {
         const object = {
             num: num
         };
-        return await axios.post(PLANNET_DOMAIN+ "board/views_up", object, HEADER);
+        return await axios.get(PLANNET_DOMAIN+ "board/views_up", object, HEADER);
     },
     // 게시판 내용보기
-    boardLoad: async function(num){
-        const object = {
-            num : num
-        };
-        return await axios.post(PLANNET_DOMAIN + "board/post_view", object, HEADER);
+    postView: async function(boardNo){
+        return await axios.get(PLANNET_DOMAIN + `board/post_view?boardNo=${boardNo}`, HEADER);
     },
     // 글 삭제
     boardDelete: async function(num) {
