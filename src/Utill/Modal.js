@@ -27,6 +27,7 @@ const Modal = (props) => {
     }
     const onClickEdit = () => {
         const link = "/edit/" + boardNo;
+        console.log(link);
         window.location.assign(link);
         window.localStorage.setItem("boardNo", boardNo);
     }

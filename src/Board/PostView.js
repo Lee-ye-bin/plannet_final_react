@@ -300,7 +300,7 @@ const PostView = () => {
         <Wrap>
             <Nav/>
             <Section>
-            {/* <Modal open={modalOpen} close={closeModal} header="글수정삭제" boardNo={getNum} option={modalOption}>{comment}</Modal> */}
+            <Modal open={modalOpen} close={closeModal} header="글수정삭제" boardNo={getNum} option={modalOption}>{comment}</Modal>
                 {boardLoad&&boardLoad.map( e => (
                     <> 
                     <p>{likeChecked}</p>
