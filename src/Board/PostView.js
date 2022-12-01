@@ -250,7 +250,6 @@ const PostView = () => {
     const onChangeComments = (e) => {
         setComments(e.target.value);
     }
-    // 댓글 수정
     const onClickSaveComments = async() => {
         await Api.boardCommentCreate(getNum, getId, comments);
         const nextPlanList = commentsList.concat({
@@ -273,16 +272,16 @@ const PostView = () => {
                 setLikeCnt(response2.data.likeCnt);
                 // const response3 = await Api.likeChecked(getId, getNum);
                 // setLikeChecked(response3.data.likeChecked);
-                // const response4 = await Api.boardCommentLoad(getNum);
-                // window.localStorage.setItem("commentNum",response4.data.value[1]);
-                // setCommentsList(response4.data);
+                const response4 = await Api.boardCommentLoad(getNum);
+                window.localStorage.setItem("commentNum",response4.data.value[1]);
+                setCommentsList(response4.data);
             } catch (e) {
                 console.log(e);
             } 
         };
         boardDataUtil();
     }, [getNum]);
-    // console.log(commentsList);
+    console.log(commentsList);
 
     return(
         <Wrap>
