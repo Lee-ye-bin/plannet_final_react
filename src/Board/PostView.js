@@ -209,8 +209,8 @@ const PostView = () => {
     // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
     const getWriterId = window.localStorage.getItem("writerId");
-    let params = useParams(); // url에서 boardNo 가져옴
-    let getNum = params.no; 
+    let params = useParams(); // url에서 boardNo와서 let params에 대입해줌
+    let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
 
     const [boardLoad, setBoardLoad] = useState();
     const [boardViews,setBoardViews] = useState(0);

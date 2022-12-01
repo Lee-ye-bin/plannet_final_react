@@ -109,9 +109,9 @@ const plannetApi = {
     // 글 삭제
     boardDelete: async function(num) {
         const object = {
-            num: num
+            num : num
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardDelete", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/delete", object, HEADER);
     },
     // 글 수정
     boardEdit: async function(id, num, title, detail) {

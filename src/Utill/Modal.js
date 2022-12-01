@@ -29,7 +29,6 @@ const Modal = (props) => {
         const link = "/edit/" + boardNo;
         console.log(link);
         window.location.assign(link);
-        window.localStorage.setItem("boardNo", boardNo);
     }
     const onClickDelete = async() => {
         await Api.boardDelete(boardNo);

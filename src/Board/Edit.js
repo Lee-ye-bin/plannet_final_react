@@ -201,8 +201,8 @@ const Section = styled.div`
 function Edit() {
     const getId = window.localStorage.getItem("userId");
     const getWriterId = localStorage.getItem("writerId");
-    let params = useParams(); // url에서 boardNo 가져옴
-    let getNum = params.no; 
+    let params = useParams(); // url에서 boardNo와서 let params에 대입해줌
+    let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
 
     const [boardLoad, setBoardLoad] = useState();
     const [title, setTitle] = useState();
@@ -233,14 +233,12 @@ function Edit() {
         await Api.boardEdit(getId, getNum, title, detail);
         const link = "/board/post_view/" + getNum;
         window.location.assign(link);
-        window.localStorage.setItem("boardNo", getNum);
     }
 
     // 취소 버튼 클릭 시 게시물 번호에 해당하는 postView 페이지로 이동
     const onClickCancle = () => {
         const link = "/board/post_view/" + getNum;
         window.location.assign(link);
-        window.localStorage.setItem("boardNo", getNum);
     }
 
     const onChangeTitle = (e) => {
