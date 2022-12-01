@@ -134,9 +134,9 @@ const Join = () => {
     const onBlurEmailCheck = async() => {
         // 가입 여부 우선 확인
         const memberCheck = await Api.memberRegCheck(inputEmail, "TYPE_EMAIL");
-        if (memberCheck.data=== "true" && isEmail) {
+        if (memberCheck.data && isEmail) {
             setEmailMessage("사용가능한 Email입니다.");
-        } else if(memberCheck.data=== "true" && !isEmail){
+        } else if(memberCheck.data && !isEmail){
             setEmailMessage("이메일의 형식이 올바르지 않습니다.");
         } else {
             setEmailMessage("이미 사용하고 있는 Email입니다.");
@@ -171,7 +171,7 @@ const Join = () => {
         if(memberReg.data) {
             window.localStorage.setItem("userId", inputId);
             window.localStorage.setItem("isLogin", "true");
-            window.location.replace("/Home");
+            window.location.replace("/home");
         }
     }
 
