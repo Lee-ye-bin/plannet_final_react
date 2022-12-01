@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -199,7 +200,10 @@ const Section = styled.div`
 
 function Edit() {
     const getId = window.localStorage.getItem("userId");
-    const getNum = window.localStorage.getItem("boardNo");
+    const getWriterId = localStorage.getItem("writerId");
+    let params = useParams(); // url에서 boardNo와서 let params에 대입해줌
+    let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
+
     const [boardLoad, setBoardLoad] = useState();
     const [title, setTitle] = useState();
     const [detail, setDetail] = useState();
@@ -207,6 +211,10 @@ function Edit() {
     const [lengthCheck, setLengthCheck] = useState(false);
 
     useEffect(() => {
+        if(getId !== getWriterId) {
+            alert("본인의 글만 수정할 수 있습니다.")
+            window.location.replace("/home");
+        } 
         const boardData = async () => {
             try {
                 const response = await Api.postView(getNum);
@@ -223,16 +231,14 @@ function Edit() {
     // 해당 게시물 번호에 해당하는 Edit 페이지로 이동
     const onClickEdit = async() => {
         await Api.boardEdit(getId, getNum, title, detail);
-        const link = "post_view/" + getNum;
+        const link = "/board/post_view/" + getNum;
         window.location.assign(link);
-        window.localStorage.setItem("boardNo", getNum);
     }
 
     // 취소 버튼 클릭 시 게시물 번호에 해당하는 postView 페이지로 이동
     const onClickCancle = () => {
         const link = "/board/post_view/" + getNum;
         window.location.assign(link);
-        window.localStorage.setItem("boardNo", getNum);
     }
 
     const onChangeTitle = (e) => {
@@ -293,6 +299,7 @@ function Edit() {
             <div className="copy">&#169; Plannet.</div>
         </Wrap>
     )
+    
 };
 
 export default Edit;

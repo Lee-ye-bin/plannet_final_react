@@ -13,6 +13,8 @@ const Modal = (props) => {
         window.localStorage.setItem("userId", "");
         window.localStorage.setItem("isLogin", "false");
         window.location.replace("/");
+        window.localStorage.removeItem("writerId");
+
     }
     const onClickWithdraw = async() => {
         await Api.memberDelete(getId);
@@ -27,7 +29,6 @@ const Modal = (props) => {
         const link = "/edit/" + boardNo;
         console.log(link);
         window.location.assign(link);
-        window.localStorage.setItem("boardNo", boardNo);
     }
     const onClickDelete = async() => {
         await Api.boardDelete(boardNo);

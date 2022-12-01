@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from 'styled-components';
 import Modal from '../Utill/Modal';
 import Api from '../api/plannetApi'
@@ -208,24 +208,27 @@ const Section = styled.div`
 const PostView = () => {
     // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
-    const getNum = window.localStorage.getItem("boardNo");
     const getWriterId = window.localStorage.getItem("writerId");
+    let params = useParams(); // url에서 boardNo와서 let params에 대입해줌
+    let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
 
-    const [boardLoad, setBoardLoad] = useState();
-    const [boardViews,setBoardViews] = useState(0);
+    const [postViewData, setPostViewData] = useState(); // 해당 게시물 번호의 내용 로드 (좋아요 제외)
     const [likeCnt, setLikeCnt] = useState(); // 좋아요 수 체크
     const [likeChecked, setLikeChecked] = useState(false); // 내가 좋아요를 했는지 체크
     const [comments, setComments] = useState(''); 
     const [commentsList, setCommentsList] = useState([]);
-    const [limit, setLimit] = useState(15);  // 페이지당 댓글 수 (현재는 15개 고정)
+
+    // 댓글 페이지네이션
+    const [limit, setLimit] = useState(10);  // 페이지당 댓글 수 (현재는 10개 고정)
     const [page, setPage] = useState(1); // 현재 댓글 페이지 번호
     const offset = (page - 1) * limit; // 댓글 페이지 위치 계산
     const numPages = Math.ceil(commentsList.length / limit); // 필요한 댓글 페이지 개수
     
     // 게시물 삭제, 수정 팝업
-    const [comment, setComment] = useState("");
-    const [modalOpen, setModalOpen] = useState(false);
+    const [modalOpen, setModalOpen] = useState(false); // 모달에 띄워줄 메세지 문구
     const [modalOption, setModalOption] = useState('');
+    const [comment, setComment] = useState("");
+
     const closeModal = () => {
         setModalOpen(false);
     };
@@ -234,7 +237,7 @@ const PostView = () => {
         setModalOption('수정');
         setComment("수정하시겠습니까?");
     }
-    const deleteData = () => {
+    const onClickDelete = () => {
         setModalOpen(true);
         setModalOption('삭제');
         setComment("삭제하시겠습니까?");
@@ -245,7 +248,7 @@ const PostView = () => {
         else (setLikeCnt(likeCnt - 1));
     }
 
-    // 댓글 입력
+    // 댓글 입력 (수정중)
     const onChangeComments = (e) => {
         setComments(e.target.value);
     }
@@ -261,13 +264,15 @@ const PostView = () => {
         setComments("");
     } 
     
+    // 본문 불러오기
     useEffect(() => {
-        const boardDataUtil = async () => {
+        const postViewLoad = async () => {
             try {
-                const response1 = await Api.postView(getNum);
-                console.log(response1);
-                setBoardLoad(response1.data);
+                // 게시물 내용 불러오기
+                const postView = await Api.postView(getNum);
+                setPostViewData(postView.data);
     
+                // 게시물 좋아요 수 불러오기 (수정중)
                 const response2 = await Api.likeCnt(getId, getNum);
                 setLikeCnt(response2.data.likeCnt);
                 // const response3 = await Api.likeChecked(getId, getNum);
@@ -279,16 +284,16 @@ const PostView = () => {
                 console.log(e);
             } 
         };
-        boardDataUtil();
+        postViewLoad();
     }, [getNum]);
-    // console.log(commentsList);
+    console.log(commentsList);
 
     return(
         <Wrap>
             <Nav/>
             <Section>
             <Modal open={modalOpen} close={closeModal} header="글수정삭제" boardNo={getNum} option={modalOption}>{comment}</Modal>
-                {boardLoad&&boardLoad.map( e => (
+                {postViewData&&postViewData.map( e => (
                     <> 
                     <p>{likeChecked}</p>
                         <div className="board_list sub_box"> 
@@ -310,7 +315,7 @@ const PostView = () => {
                         <div className="button-area1">
                             <button onClick={onClickLike}>{likeChecked === true ? <i className="bi bi-heart"></i> : <i className="bi bi-heart-fill"></i>}</button>
                             <Link to='/board'><button className='btn left-space'>BACK</button></Link>
-                            {getId === e.writerId ? <><button className='btn left-space' onClick={onClickEdit}>EDIT</button><button className='btn left-space' onClick={deleteData}>DELETE</button></> : null}
+                            {getId === e.writerId ? <><button className='btn left-space' onClick={onClickEdit}>EDIT</button><button className='btn left-space' onClick={onClickDelete}>DELETE</button></> : null}
                         </div>
                     </>))}
                         <h3>댓글</h3>

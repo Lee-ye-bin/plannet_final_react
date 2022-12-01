@@ -109,9 +109,9 @@ const plannetApi = {
     // 글 삭제
     boardDelete: async function(num) {
         const object = {
-            num: num
+            num : num
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardDelete", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/delete", object, HEADER);
     },
     // 글 수정
     boardEdit: async function(id, num, title, detail) {
@@ -121,7 +121,7 @@ const plannetApi = {
             title: title,
             detail: detail
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardEdit", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/edit", object, HEADER);
     },
     // // 좋아요 수 불러오기
     // likeCnt: async function(id, num) {
@@ -146,14 +146,14 @@ const plannetApi = {
             id: id,
             detail: detail
         };
-        return await axios.post(PLANNET_DOMAIN + "board/comment/write", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/comment_write", object, HEADER);
     },
     // 해당 게시물에 작성된 댓글 불러오기
     boardCommentLoad: async function(boardNo){
         const object = {
             boardNo : boardNo
         };
-        return await axios.post(PLANNET_DOMAIN + "board/comment/load", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/comment_load", object, HEADER);
     },
     // userInfo 불러오기 - userinfoController-userinfoload
     userInfoLoad: async function(id){

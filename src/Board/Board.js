@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Nav from "../Utill/Nav";
 import Api from '../api/plannetApi'
@@ -123,7 +123,9 @@ const Section = styled.div`
 const Board = () => {
     // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
-    const getNum = window.localStorage.getItem("boardNo");
+    // const getNum = window.localStorage.getItem("boardNo");
+    let params = useParams(); // url에서 boardNo와서 let params에 대입해줌
+    let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
     const getWriterId = window.localStorage.getItem("writerId");
 
     // 값 불러오기 & 값 
@@ -142,7 +144,7 @@ const Board = () => {
     const onClickBoard = (boardNo, writerId) => {
         const link = "board/post_view/" + boardNo;
         window.location.assign(link);
-        window.localStorage.setItem("boardNo",boardNo);
+        // window.localStorage.setItem("boardNo",boardNo);
         window.localStorage.setItem("writerId", writerId);
         if(getWriterId !== getId) viewsUp();
     }
