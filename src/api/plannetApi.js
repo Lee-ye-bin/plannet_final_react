@@ -38,7 +38,7 @@ const plannetApi = {
         const memberObj = {
             id: id,
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberDelete", memberObj, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/member_delete", memberObj, HEADER);
     },
     // 회원 아이디, 비밀번호 찾기
     memberFind: async function(uni, email, type){
