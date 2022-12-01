@@ -39,9 +39,27 @@ const Box = styled.div`
         .userId{
             font-weight: 300;
             font-size: 12px;
+            i{
+                padding: 3px;
+                display: inline-block;
+                text-align: center;
+                width: 17px;
+                height: 17px;
+                color: #888;
+                font-size: 11px;
+                background-color: white;
+                border-radius: 50%;
+                margin: 1px;
+                cursor: pointer;
+                &:first-child{margin-left: 4px;}
+                &:hover{
+                    background-color: #f0f0f0;
+                    color: #888;
+                    box-shadow: 1px 1px 3px #aaa;
+                }
+            }
         }
-        .userPro1{
-            height: calc(80vh - 420px);
+        .userPro{
             margin: 20px 0;
             padding-left:17px;
             white-space: pre;
@@ -70,51 +88,100 @@ const Box = styled.div`
             margin: 0 auto;
             background-size: cover;
         };
-        .userPro2{
-            p{font-size: 11px;
-            color: #888;}
-        }
         .menu{
-            width: 208px;
-            width: 253px;
-            height: 50px;
+            width: 179.11px;
+            height: 40px;
             margin: 0 auto;
             li{
                 float: left;
                 a, span{
                     padding: 0px 7px; 
-                    line-height:50px; 
+                    line-height:40px; 
                     border-left: 1px solid #555; 
                     font-weight: 600; 
-                    cursor: pointer;}
+                    cursor: pointer;
+                    &:hover{
+                        color: #4555AE;
+                    }
+                }
             }
             li:first-child a{border-left: none;}
         }
-        .pes{
+        .calList{
             clear: both;
-            p{margin-bottom: 7px;}
+            li{
+                width: 90%;
+                padding: 10px 8px;
+                margin: 10px auto;
+                background-color: #f5f6ff;
+                border-radius: 5px;
+                &:hover{
+                    background-color: white;
+                }
+            }
+            .calTitle{
+                width: 90%;
+                margin: 0 auto 6px;
+                span:first-child{
+                    display: inline-block;
+                    width: 190px;
+                    text-align: left;
+                    font-weight: 600;
+                }
+                span:last-child{
+                    display: inline-block;
+                    width: 20px;
+                    text-align: right;
+                    i{color: #333;}
+                }
+            }
+            
             .chartBackground{
-                width: 75%;
-                height: 12px;
-                background-color: #dfdfdf;
+                width: 90%;
+                height: 5px;
+                background-color: #e5e5e5;
                 margin: 0 auto;
                 border-radius: 15px;
                 position: relative;
-                margin-bottom: 15px;
                 .chartBar{
-                    height: 12px;
+                    height: 5px;
                     position: absolute;
                     left: 0;
                     background-color: #4555AE;
                     border-radius: 15px;
                     color: white;
                     text-align: right;
-                    font-size: 12px;
+                    font-size: 10px;
                     padding-right: 10px;
-                    line-height: 12px;
+                    line-height: 10px;
                     text-shadow: 1px 1px 1px #555;
                     overflow: hidden;
                 }
+            }
+        }
+
+        .tooltip {
+            position: relative;
+            .tooltiptext {
+                visibility: hidden;
+                background-color: white;
+                color: #333;
+                text-align: center;
+                border-radius: 6px;
+                padding: 2px 0;
+                position: absolute;
+                z-index: 1;
+                font-size: 13px;
+            }
+            &:hover .tooltiptext {
+                visibility: visible;
+            }
+            .tooltip-bottom {
+                width: 60px;
+                top: 130%;
+                left: 50%;
+                margin-left: -60px;
+                box-shadow: 1px 1px 3px #ccc;
             }
         }
     }
@@ -123,19 +190,24 @@ const Box = styled.div`
 const Nav = () => {
     const userId = window.localStorage.getItem("userId");
     const [userInfo, setUserInfo] = useState("");
+    const [scalInfo, setScalInfo] = useState("");
+    const [proHeight, setProHeight] = useState("");
     
     useEffect(() => {
         const userInfoLoad = async() => {
             try{
                 const response = await Api.userNavInfo(userId);
                 setUserInfo(response.data.userInfo);
-                // setUserInfo();
+                setScalInfo(response.data.scalInfo);
+                setProHeight(response.data.scalInfo.length * 47 + 381);
             } catch(e){
                 console.log(e);
             }
         }
         userInfoLoad();
     },[userId]);
+
+    console.log(userInfo);
 
     // 로그아웃 팝업
     const [comment, setCommnet] = useState("");
@@ -166,27 +238,40 @@ const Nav = () => {
                 <h2>Let's plan it!</h2>
             </div>
             <div className="userinfo">
-                <div className="userImgBox" style={{backgroundImage: "url('https://khprojectplannet.s3.ap-northeast-2.amazonaws.com/"+ userInfo[6] +"')"}}/>
+                <div className="userImgBox" style={{backgroundImage: "url('https://khprojectplannet.s3.ap-northeast-2.amazonaws.com/"+ userInfo[3] +"')"}}/>
                 <p className="userName">{userInfo[0]}</p>
-                <p className="userId"># {userInfo[1]}</p>
-                <div className="userPro1">{userInfo[2]}</div>
-                <div className="pes">
-                    <p>달성률</p>
-                    <div className="chartBackground">
-                        <div className="chartBar" style={{width: userInfo[7]+'%'}}>{userInfo[7]}%</div>
-                    </div>
-                </div>
-                <div className="userPro2">
-                    <p>Email : {userInfo[3]}</p>
-                    <p>{userInfo[5]? <p>Phone : {userInfo[5]}</p> : <p>Phone : - </p> }</p>
-                    {userInfo[4]? <p>SNS : @{userInfo[4]}</p> : <p>SNS : - </p> }
+                <p className="userId"># {userInfo[1]}<span className="tooltip"><Link to="/setting"><i className="bi bi-gear-fill"/><span class="tooltiptext tooltip-bottom">설정</span></Link></span><span className="tooltip"><i className="bi bi-box-arrow-right" onClick={onClickBtn}></i><span class="tooltiptext tooltip-bottom">로그아웃</span></span></p>
+                <div className="userPro" style={{height: 'calc(80vh - ' + {proHeight} + 'px)'}}>{userInfo[2]}</div>
+                <div className="calList">
+                    <ul>
+                        <Link to="/home">
+                            <li>
+                                <p className="calTitle"><span>{userInfo[0]}님의 플래너</span><span><i class="bi bi-caret-right-fill"></i></span></p>
+                                <div className="chartBackground">
+                                    <div className="chartBar" style={{width: userInfo[4]+'%'}}></div>
+                                </div>
+                            </li>
+                        </Link>
+                        {scalInfo&&scalInfo.map(e => {
+                            return(
+                            <Link to="/home">
+                                {/* 추후 링크 변경 */}
+                                <li>
+                                    <p className="calTitle"><span>{e[1]}</span><span><i class="bi bi-caret-right-fill"></i></span></p>
+                                    <div className="chartBackground">
+                                        <div className="chartBar" style={{width: e[2]+'%'}}></div>
+                                    </div>
+                                </li>
+                            </Link>
+                        )})}
+                        
+                    </ul>
                 </div>
                 <ul className="menu">
-                    <li><Link to="/home">마이페이지</Link></li>
                     <li><Link to="/board">자유게시판</Link></li>
-                    <li onClick={onClickBtn}><span>로그아웃</span></li>
+                    <li><Link to="#">친구목록</Link></li>
+                    <li><Link to="#">쪽지</Link></li>
                     <Modal open={modalOpen} close={closeModal} header="안내">{comment}</Modal>
-                    <li><Link to="/setting">설정</Link></li>
                 </ul>
             </div>
         </Box>

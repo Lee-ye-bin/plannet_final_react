@@ -65,9 +65,9 @@ const Join = () => {
     const onBlurIdCheck = async() => {
         // 가입 여부 우선 확인
         const memberCheck = await Api.memberRegCheck(inputId, "TYPE_ID");
-        if (memberCheck.data.result === "OK" && isId) {
+        if (memberCheck.data && isId) {
             setIdMessage("사용가능한 ID입니다.");
-        } else if(memberCheck.data.result === "OK" && !isId){
+        } else if(memberCheck.data && !isId){
             setIdMessage("5자리 이상 12자리 미만으로 입력해 주세요.");
         }
         else {
@@ -134,9 +134,9 @@ const Join = () => {
     const onBlurEmailCheck = async() => {
         // 가입 여부 우선 확인
         const memberCheck = await Api.memberRegCheck(inputEmail, "TYPE_EMAIL");
-        if (memberCheck.data.result === "OK" && isEmail) {
+        if (memberCheck.data=== "true" && isEmail) {
             setEmailMessage("사용가능한 Email입니다.");
-        } else if(memberCheck.data.result === "OK" && !isEmail){
+        } else if(memberCheck.data=== "true" && !isEmail){
             setEmailMessage("이메일의 형식이 올바르지 않습니다.");
         } else {
             setEmailMessage("이미 사용하고 있는 Email입니다.");
@@ -151,7 +151,7 @@ const Join = () => {
     const onBlurTelCheck = async() => {
         // 가입 여부 우선 확인
         const memberCheck = await Api.memberRegCheck(inputTel, "TYPE_TEL");
-        if (memberCheck.data.result === "OK" ) {
+        if (memberCheck.data) {
             setTelMessage("사용가능한 전화번호입니다.");
         } else {
             setTelMessage("이미 사용하고 있는 전화번호입니다.");

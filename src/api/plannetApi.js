@@ -31,7 +31,7 @@ const plannetApi = {
             uni: uni,
             type: type
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberCheck", regCheck, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/overlap_check", regCheck, HEADER);
     },
     // 회원 탈퇴
     memberDelete: async function(id) {
@@ -146,14 +146,14 @@ const plannetApi = {
             id: id,
             detail: detail
         };
-        return await axios.post(PLANNET_DOMAIN + "board/comment/write", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/comment_write", object, HEADER);
     },
     // 해당 게시물에 작성된 댓글 불러오기
     boardCommentLoad: async function(boardNo){
         const object = {
             boardNo : boardNo
         };
-        return await axios.post(PLANNET_DOMAIN + "board/comment/load", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/comment_load", object, HEADER);
     },
     // userInfo 불러오기 - userinfoController-userinfoload
     userInfoLoad: async function(id){

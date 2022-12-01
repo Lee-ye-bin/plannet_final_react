@@ -316,7 +316,7 @@ const PostView = () => {
                     </>))}
                         <h3>댓글</h3>
                         <div className='comment_box'>
-                        {/* <table>
+                        <table>
                             <tr>
                                 <th>Writer</th>
                                 <th>Comment</th>
@@ -329,7 +329,7 @@ const PostView = () => {
                                     <td>{date}</td>
                                 </tr>
                             ))}
-                        </table> */}
+                        </table>
                     {/* <div>
                         <ul className="page_list">
                             <li><span onclick = {()=> setPage(page - 1)} disabled = {page === 1}>«</span></li>
@@ -341,8 +341,8 @@ const PostView = () => {
                     </div> */}
                     </div>
                     <div className="button-area2">
-                    {/* <input type='text' className='comment_text' placeholder='댓글 달기...' value={comments} onChange={onChangeComments} name='comments' size='60'></input>
-                    <button className='comment_btn' onClick={onClickSaveComments}>SAVE</button> */}
+                    <input type='text' className='comment_text' placeholder='댓글 달기...' value={comments} onChange={onChangeComments} name='comments' size='60'></input>
+                    <button className='comment_btn' onClick={onClickSaveComments}>SAVE</button>
                     </div>
             </Section>
             <div className="copy">&#169; Plannet.</div>
