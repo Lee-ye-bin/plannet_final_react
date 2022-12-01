@@ -286,7 +286,7 @@ const PostView = () => {
         };
         postViewLoad();
     }, [getNum]);
-    // console.log(commentsList);
+    console.log(commentsList);
 
     return(
         <Wrap>
