@@ -168,7 +168,7 @@ const Join = () => {
 
     const onClickJoin = async() => {
         const memberReg = await Api.memberReg(inputId, inputPw, inputName, inputNickname, inputEmail, inputTel);
-        if(memberReg.data.result === "OK") {
+        if(memberReg.data) {
             window.localStorage.setItem("userId", inputId);
             window.localStorage.setItem("isLogin", "true");
             window.location.replace("/Home");

@@ -23,7 +23,7 @@ const plannetApi = {
             tel: tel,
             join_date: join_date
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberRegServlet", memberObj, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/register", memberObj, HEADER);
     },
     // 회원 가입 여부 확인
     memberRegCheck: async function(uni, type) {
