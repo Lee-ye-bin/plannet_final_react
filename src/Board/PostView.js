@@ -329,7 +329,7 @@ const PostView = () => {
                             </tr>
                             {commentsList.slice(offset, offset+limit).map(({no, id, nickname, detail, date})=>(
                                 <tr key={no}>
-                                    <td>{id}</td>
+                                    <td>{nickname}</td>
                                     <td>{detail}</td>
                                     <td>{date}</td>
                                 </tr>
