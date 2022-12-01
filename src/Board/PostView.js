@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from 'styled-components';
 import Modal from '../Utill/Modal';
 import Api from '../api/plannetApi'
@@ -208,8 +208,9 @@ const Section = styled.div`
 const PostView = () => {
     // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
-    const getNum = window.localStorage.getItem("boardNo");
     const getWriterId = window.localStorage.getItem("writerId");
+    let params = useParams(); // url에서 boardNo 가져옴
+    let getNum = params.no; 
 
     const [boardLoad, setBoardLoad] = useState();
     const [boardViews,setBoardViews] = useState(0);

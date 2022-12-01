@@ -65,7 +65,6 @@ const DoLogin = () => {
             if(res.data) {
                 window.localStorage.setItem("isLogin", "true");
                 window.localStorage.setItem("userId", inputId);
-                window.localStorage.setItem("userPw", inputPw);
                 window.location.replace("/home");
             } else {
                 setCommnet("아이디 또는 비밀번호가 정확하지 않습니다.");

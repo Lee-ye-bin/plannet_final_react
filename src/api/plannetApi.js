@@ -121,7 +121,7 @@ const plannetApi = {
             title: title,
             detail: detail
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardEdit", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/edit", object, HEADER);
     },
     // // 좋아요 수 불러오기
     // likeCnt: async function(id, num) {
