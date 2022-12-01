@@ -64,6 +64,7 @@ const Box = styled.div`
             padding-left:17px;
             white-space: pre;
             overflow-y: scroll;
+            height: calc(80vh - 390px);
             &::-webkit-scrollbar {
                 width: 20px;
                 padding: 15px;
@@ -115,6 +116,7 @@ const Box = styled.div`
                 margin: 10px auto;
                 background-color: #f5f6ff;
                 border-radius: 5px;
+                transition: all .3s ease-out;
                 &:hover{
                     background-color: white;
                 }
@@ -199,15 +201,13 @@ const Nav = () => {
                 const response = await Api.userNavInfo(userId);
                 setUserInfo(response.data.userInfo);
                 setScalInfo(response.data.scalInfo);
-                setProHeight(response.data.scalInfo.length * 47 + 381);
+                setProHeight(response.data.scalInfo.length * 47 + 390);
             } catch(e){
                 console.log(e);
             }
         }
         userInfoLoad();
     },[userId]);
-
-    console.log(userInfo);
 
     // 로그아웃 팝업
     const [comment, setCommnet] = useState("");
@@ -241,7 +241,7 @@ const Nav = () => {
                 <div className="userImgBox" style={{backgroundImage: "url('https://khprojectplannet.s3.ap-northeast-2.amazonaws.com/"+ userInfo[3] +"')"}}/>
                 <p className="userName">{userInfo[0]}</p>
                 <p className="userId"># {userInfo[1]}<span className="tooltip"><Link to="/setting"><i className="bi bi-gear-fill"/><span class="tooltiptext tooltip-bottom">설정</span></Link></span><span className="tooltip"><i className="bi bi-box-arrow-right" onClick={onClickBtn}></i><span class="tooltiptext tooltip-bottom">로그아웃</span></span></p>
-                <div className="userPro" style={{height: 'calc(80vh - ' + {proHeight} + 'px)'}}>{userInfo[2]}</div>
+                <div className="userPro" style={{height: 'calc(80vh - ' + proHeight + 'px)'}}>{userInfo[2]}</div>
                 <div className="calList">
                     <ul>
                         <Link to="/home">
@@ -269,7 +269,7 @@ const Nav = () => {
                 </div>
                 <ul className="menu">
                     <li><Link to="/board">자유게시판</Link></li>
-                    <li><Link to="#">친구목록</Link></li>
+                    <li><Link to="/friend">친구목록</Link></li>
                     <li><Link to="#">쪽지</Link></li>
                     <Modal open={modalOpen} close={closeModal} header="안내">{comment}</Modal>
                 </ul>

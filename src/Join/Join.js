@@ -202,11 +202,11 @@ const Join = () => {
                 </div>
                 <div className="session">
                     <p>이름*</p>
-                    <input type='text'placeholder="이름" value ={inputName} onChange={onChangeName}/>
+                    <input type='text'placeholder="이름" value ={inputName} onChange={onChangeName} maxLength={30}/>
                 </div>
                 <div className="session">
                     <p>닉네임</p>
-                    <input type='text' placeholder="닉네임" value ={inputNickname} onChange={onChangeNickname}/>
+                    <input type='text' placeholder="닉네임" value ={inputNickname} onChange={onChangeNickname} maxLength={20}/>
                 </div>
                 <div className="session">
                     <p>
