@@ -23,7 +23,7 @@ const plannetApi = {
             tel: tel,
             join_date: join_date
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberRegServlet", memberObj, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/register", memberObj, HEADER);
     },
     // 회원 가입 여부 확인
     memberRegCheck: async function(uni, type) {
@@ -98,11 +98,9 @@ const plannetApi = {
         return await axios.post(PLANNET_DOMAIN + "board/write", object, HEADER);
     },
     // 글 조회수 
-    boardViews:async function(num){
-        const object = {
-            num: num
-        };
-        return await axios.get(PLANNET_DOMAIN+ "board/views_up", object, HEADER);
+    boardViewsUp:async function(boardNo){
+        console.log("제대로들어옴?");
+        return await axios.get(PLANNET_DOMAIN+ `board/views_up?boardNo=${boardNo}`, HEADER);
     },
     // 게시판 내용보기
     postView: async function(boardNo){
@@ -148,14 +146,14 @@ const plannetApi = {
             id: id,
             detail: detail
         };
-        return await axios.post(PLANNET_DOMAIN + "comment/write", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/comment/write", object, HEADER);
     },
     // 해당 게시물에 작성된 댓글 불러오기
     boardCommentLoad: async function(boardNo){
         const object = {
             boardNo : boardNo
         };
-        return await axios.post(PLANNET_DOMAIN + "comment/load", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/comment/load", object, HEADER);
     },
     // userInfo 불러오기 - userinfoController-userinfoload
     userInfoLoad: async function(id){
