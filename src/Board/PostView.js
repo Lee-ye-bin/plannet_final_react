@@ -252,7 +252,7 @@ const PostView = () => {
     const onChangeComments = (e) => {
         setComments(e.target.value);
     }
-    // 댓글 수정
+    // 댓글 저장
     const onClickSaveComments = async() => {
         await Api.boardCommentCreate(getNum, getId, comments);
         const nextPlanList = commentsList.concat({
@@ -261,7 +261,7 @@ const PostView = () => {
             id: getId,
         });
         setCommentsList(nextPlanList);
-        setComments("");
+        //setComments("");
     } 
     
     // 본문 불러오기
@@ -273,13 +273,14 @@ const PostView = () => {
                 setPostViewData(postView.data);
     
                 // 게시물 좋아요 수 불러오기 (수정중)
-                const response2 = await Api.likeCnt(getId, getNum);
-                setLikeCnt(response2.data.likeCnt);
+                // const response2 = await Api.likeCnt(getId, getNum);
+                // setLikeCnt(response2.data.likeCnt);
                 // const response3 = await Api.likeChecked(getId, getNum);
                 // setLikeChecked(response3.data.likeChecked);
-                // const response4 = await Api.boardCommentLoad(getNum);
+                const response4 = await Api.boardCommentLoad(getNum);
+                console.log(response4);
                 // window.localStorage.setItem("commentNum",response4.data.value[1]);
-                // setCommentsList(response4.data);
+                setCommentsList(response4.data);
             } catch (e) {
                 console.log(e);
             } 
