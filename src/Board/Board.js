@@ -121,28 +121,45 @@ const Section = styled.div`
 `;
 
 const Board = () => {
-    const [boardList, setBoardList] = useState([]);
+    // localStorage 저장 정보
+    const getId = window.localStorage.getItem("userId");
+    const getNum = window.localStorage.getItem("boardNo");
+    const getWriterId = window.localStorage.getItem("writerId");
+
+    // 값 불러오기 & 값 
+    const [boardList, setBoardList] = useState([]); // boardList 불러오기
+    const [boardNo, setBoardNo] = useState(); // 게시물 클릭 시 boardNo 재설정
+    const [views, setViewsUp] = useState(0); // 게시물 클릭 시 작성자와 로그인 ID가 다를 경우에만 조회수 +1
+    
+    // 페이지네이션
     const [limit, setLimit] = useState(15);  // 페이지당 게시물 수 (현재는 15개 고정)
     const [page, setPage] = useState(1); // 현재 페이지 번호
     const offset = (page - 1) * limit; // 게시물 위치 계산
     const numPages = Math.ceil(boardList.length / limit); // 필요한 페이지 개수
-
-    const [boardNo, setBoardNo] = useState();
-
+    
+    
     //날짜 클릭시 해당 번호의 postView로 이동
-    const onClickBoard = (boardNo) => {
-        console.log(boardNo);
+    const onClickBoard = (boardNo, writerId) => {
         const link = "board/post_view/" + boardNo;
         window.location.assign(link);
         window.localStorage.setItem("boardNo",boardNo);
+        window.localStorage.setItem("writerId", writerId);
+        if(getWriterId !== getId) viewsUp();
     }
+
+    // 조회수 +1
+    const viewsUp = async () => {
+        try {
+            const response = await Api.boardViewsUp(getNum);
+            setViewsUp(response.data);
+        } catch (e) {console.log(e);}
+    };
 
     // boardList 불러오기
     useEffect(() => {
         const boardData = async () => {
             try {
                 const response = await Api.boardList();
-                
                 setBoardList(response.data);
                 console.log(response.data);
             } catch (e) {
@@ -170,10 +187,10 @@ const Board = () => {
                             <th>Views</th>
                             <th>Date</th>
                         </tr>
-                        {boardList.slice(offset, offset + limit).map(({boardNo, title, nickname, views, writeDate}) => (
+                        {boardList.slice(offset, offset + limit).map(({boardNo, writerId, title, nickname, views, writeDate}) => (
                             <tr key={boardNo}>
                                 <td>{boardNo}</td>
-                                <td onChange={setBoardNo} onClick={()=> onClickBoard(boardNo)}>{title}</td>
+                                <td onChange={setBoardNo} onClick={()=> onClickBoard(boardNo, writerId)}>{title}</td>
                                 <td>{nickname}</td>
                                 <td>{views}</td>
                                 <td>{writeDate.substring(0, 10)}</td>

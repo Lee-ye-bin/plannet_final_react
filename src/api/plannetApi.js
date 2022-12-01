@@ -98,11 +98,9 @@ const plannetApi = {
         return await axios.post(PLANNET_DOMAIN + "board/write", object, HEADER);
     },
     // 글 조회수 
-    boardViews:async function(num){
-        const object = {
-            num: num
-        };
-        return await axios.get(PLANNET_DOMAIN+ "board/views_up", object, HEADER);
+    boardViewsUp:async function(boardNo){
+        console.log("제대로들어옴?");
+        return await axios.get(PLANNET_DOMAIN+ `board/views_up?boardNo=${boardNo}`, HEADER);
     },
     // 게시판 내용보기
     postView: async function(boardNo){

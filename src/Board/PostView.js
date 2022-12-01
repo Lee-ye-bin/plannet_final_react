@@ -206,9 +206,11 @@ const Section = styled.div`
 `;
 
 const PostView = () => {
+    // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
     const getNum = window.localStorage.getItem("boardNo");
     const getWriterId = window.localStorage.getItem("writerId");
+
     const [boardLoad, setBoardLoad] = useState();
     const [boardViews,setBoardViews] = useState(0);
     const [likeCnt, setLikeCnt] = useState(); // 좋아요 수 체크
@@ -219,9 +221,6 @@ const PostView = () => {
     const [page, setPage] = useState(1); // 현재 댓글 페이지 번호
     const offset = (page - 1) * limit; // 댓글 페이지 위치 계산
     const numPages = Math.ceil(commentsList.length / limit); // 필요한 댓글 페이지 개수
-
-    console.log(getId);
-    console.log(getNum);
     
     // 게시물 삭제, 수정 팝업
     const [comment, setComment] = useState("");
@@ -263,22 +262,14 @@ const PostView = () => {
     } 
     
     useEffect(() => {
-        // const increaseViews = async () => {
-        //     try {
-        //         const response = await Api.boardViews(getNum);
-        //         setBoardViews(response.data);
-        //     } catch (e) {
-        //         console.log(e);
-        //     }
-        // };
         const boardDataUtil = async () => {
             try {
                 const response1 = await Api.postView(getNum);
                 console.log(response1);
                 setBoardLoad(response1.data);
     
-                // const response2 = await Api.likeCnt(getId, getNum);
-                // setLikeCnt(response2.data.likeCnt);
+                const response2 = await Api.likeCnt(getId, getNum);
+                setLikeCnt(response2.data.likeCnt);
                 // const response3 = await Api.likeChecked(getId, getNum);
                 // setLikeChecked(response3.data.likeChecked);
                 // const response4 = await Api.boardCommentLoad(getNum);
@@ -288,19 +279,15 @@ const PostView = () => {
                 console.log(e);
             } 
         };
-        // if(getWriterId !== getId) increaseViews();
         boardDataUtil();
     }, [getNum]);
     // console.log(commentsList);
-
-    console.log("여기다음에 출력되어야하는데!");
-    console.log(boardLoad);
 
     return(
         <Wrap>
             <Nav/>
             <Section>
-            {/* <Modal open={modalOpen} close={closeModal} header="글수정삭제" boardNo={getNum} option={modalOption}>{comment}</Modal> */}
+            <Modal open={modalOpen} close={closeModal} header="글수정삭제" boardNo={getNum} option={modalOption}>{comment}</Modal>
                 {boardLoad&&boardLoad.map( e => (
                     <> 
                     <p>{likeChecked}</p>
@@ -314,8 +301,8 @@ const PostView = () => {
                                 <tr>
                                     <td>No.{e.boardNo}</td>
                                     <td>Writer. {e.nickname}</td>
-                                    <td><i class="bi bi-eye"></i>{e.views}<i class="bi bi-heart-fill"></i>{likeCnt}</td>
-                                    <td>{e.writeDate.substring(0, 15)}</td>
+                                    <td><i class="bi bi-eye"></i>{e.views}<i class="bi bi-heart-fill"></i>{e.likeCnt}</td>
+                                    <td>{e.writeDate}</td>
                                 </tr>
                             </table>
                             <div className='detail' dangerouslySetInnerHTML={{__html: e.detail}}></div>
