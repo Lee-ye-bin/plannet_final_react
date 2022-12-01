@@ -121,22 +121,39 @@ const Section = styled.div`
 `;
 
 const Board = () => {
-    const [boardList, setBoardList] = useState([]);
+    // localStorage 저장 정보
+    const getId = window.localStorage.getItem("userId");
+    const getNum = window.localStorage.getItem("boardNo");
+    const getWriterId = window.localStorage.getItem("writerId");
+
+    // 값 불러오기 & 값 
+    const [boardList, setBoardList] = useState([]); // boardList 불러오기
+    const [boardNo, setBoardNo] = useState(); // 게시물 클릭 시 boardNo 재설정
+    const [views, setViewsUp] = useState(0); // 게시물 클릭 시 작성자와 로그인 ID가 다를 경우에만 조회수 +1
+    
+    // 페이지네이션
     const [limit, setLimit] = useState(15);  // 페이지당 게시물 수 (현재는 15개 고정)
     const [page, setPage] = useState(1); // 현재 페이지 번호
     const offset = (page - 1) * limit; // 게시물 위치 계산
     const numPages = Math.ceil(boardList.length / limit); // 필요한 페이지 개수
-
-    const [boardNo, setBoardNo] = useState();
-
+    
+    
     //날짜 클릭시 해당 번호의 postView로 이동
     const onClickBoard = (boardNo, writerId) => {
-        console.log(boardNo);
-        const link = "/postView/" + boardNo;
+        const link = "board/post_view/" + boardNo;
         window.location.assign(link);
         window.localStorage.setItem("boardNo",boardNo);
-        window.localStorage.setItem("writerId",writerId);
+        window.localStorage.setItem("writerId", writerId);
+        if(getWriterId !== getId) viewsUp();
     }
+
+    // 조회수 +1
+    const viewsUp = async () => {
+        try {
+            const response = await Api.boardViewsUp(getNum);
+            setViewsUp(response.data);
+        } catch (e) {console.log(e);}
+    };
 
     // boardList 불러오기
     useEffect(() => {
@@ -170,20 +187,21 @@ const Board = () => {
                             <th>Views</th>
                             <th>Date</th>
                         </tr>
-                        {boardList.slice(offset, offset + limit).map(({num, title, nickname, views, date, id}) => (
-                            <tr key={num}>
-                                <td>{num}</td>
-                                <td onChange={setBoardNo} onClick={()=> onClickBoard(num, id)}>{title}</td>
+                        {boardList.slice(offset, offset + limit).map(({boardNo, writerId, title, nickname, views, writeDate}) => (
+                            <tr key={boardNo}>
+                                <td>{boardNo}</td>
+                                <td onChange={setBoardNo} onClick={()=> onClickBoard(boardNo, writerId)}>{title}</td>
                                 <td>{nickname}</td>
                                 <td>{views}</td>
-                                <td>{(date).substring(0,10)}</td>
+                                <td>{writeDate.substring(0, 10)}</td>
                             </tr>     
                         ))}
                     </table>
+
                 </div>
                 <div className="util_box">
                     <ul className="page_list">
-                        <li><span onclick = {()=> setPage(page - 1)} disabled = {page === 1}>«</span></li>
+                        <li><span onClick = {()=> setPage(page - 1)} disabled = {page === 1}>«</span></li>
                         {/*Array(numPages) :  페이지 수만큼의 size를 가지고 있는 배열을 생성하고 
                         .fill() : undefine으로 모든 칸 할당
                         .map(arr, i) : arr은 현재값, i는 인덱스로 각 자리 인덱스에 해당하는 값 할당 
@@ -191,11 +209,11 @@ const Board = () => {
                         {Array(numPages).fill().map((_, i) => (
                         <li><span key={i + 1} onClick={() => setPage(i + 1)} aria-current={page === i + 1 ? "page" : null}>{i + 1}</span></li>
                         ))}
-                        <li><span onclick = {()=> setPage(page + 1)} disabled = {page === numPages}>»</span></li>
+                        <li><span onClick = {()=> setPage(page + 1)} disabled = {page === numPages}>»</span></li>
                     </ul> 
                     <form className="search" id="search" name="search" method="post">
                         <input name="product_search" title="검색" placeholder="검색어 입력"/>
-                        <a href="#" onclick="submit"><i className="bi bi-search"></i></a>
+                        <a href="#" onClick="submit"><i className="bi bi-search"></i></a>
                     </form> 
                 </div>
             </Section>

@@ -206,9 +206,11 @@ const Section = styled.div`
 `;
 
 const PostView = () => {
+    // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
     const getNum = window.localStorage.getItem("boardNo");
     const getWriterId = window.localStorage.getItem("writerId");
+
     const [boardLoad, setBoardLoad] = useState();
     const [boardViews,setBoardViews] = useState(0);
     const [likeCnt, setLikeCnt] = useState(); // 좋아요 수 체크
@@ -260,33 +262,26 @@ const PostView = () => {
     } 
     
     useEffect(() => {
-        const increaseViews = async () => {
-            try {
-                const response = await Api.boardViews(getNum);
-                setBoardViews(response.data);
-            } catch (e) {
-                console.log(e);
-            }
-        };
         const boardDataUtil = async () => {
             try {
-                const response1 = await Api.boardLoad(getNum);
+                const response1 = await Api.postView(getNum);
+                console.log(response1);
                 setBoardLoad(response1.data);
+    
                 const response2 = await Api.likeCnt(getId, getNum);
                 setLikeCnt(response2.data.likeCnt);
-                const response3 = await Api.likeChecked(getId, getNum);
-                setLikeChecked(response3.data.likeChecked);
-                const response4 = await Api.boardCommentLoad(getNum);
+                // const response3 = await Api.likeChecked(getId, getNum);
+                // setLikeChecked(response3.data.likeChecked);
+                // const response4 = await Api.boardCommentLoad(getNum);
                 // window.localStorage.setItem("commentNum",response4.data.value[1]);
-                setCommentsList(response4.data);
+                // setCommentsList(response4.data);
             } catch (e) {
                 console.log(e);
-            }
+            } 
         };
-        if(getWriterId !== getId) increaseViews();
         boardDataUtil();
     }, [getNum]);
-    console.log(commentsList);
+    // console.log(commentsList);
 
     return(
         <Wrap>
@@ -294,19 +289,20 @@ const PostView = () => {
             <Section>
             <Modal open={modalOpen} close={closeModal} header="글수정삭제" boardNo={getNum} option={modalOption}>{comment}</Modal>
                 {boardLoad&&boardLoad.map( e => (
-                    <> <p>{likeChecked}</p>
+                    <> 
+                    <p>{likeChecked}</p>
                         <div className="board_list sub_box"> 
                             <h2>자유게시판</h2>
-                            <p><span>유저들이 작성한 글에 댓글과 좋아요를 남기며 소통해보세요! <br />커뮤니티 규칙에 맞지 않는 글과 댓글은 무통보 삭제됩니다.</span></p>  
+                            <p><span>유저들이 작성한 글에 댓글과 좋아요를 남기며 소통해보세요! <br/>커뮤니티 규칙에 맞지 않는 글과 댓글은 무통보 삭제됩니다.</span></p>  
                             <table className='postInfo'>
                                 <tr>
-                                    <td className="title-input" key={e.num} colSpan={4}>{e.title}</td>
+                                    <td className="title-input" key={e.boardNo} colSpan={4}>{e.title}</td>
                                 </tr>
                                 <tr>
-                                    <td>No.{e.num}</td>
+                                    <td>No.{e.boardNo}</td>
                                     <td>Writer. {e.nickname}</td>
-                                    <td><i class="bi bi-eye"></i>{e.views}<i class="bi bi-heart-fill"></i>{likeCnt}</td>
-                                    <td>{(e.date).substring(0,10)}</td>
+                                    <td><i class="bi bi-eye"></i>{e.views}<i class="bi bi-heart-fill"></i>{e.likeCnt}</td>
+                                    <td>{e.writeDate}</td>
                                 </tr>
                             </table>
                             <div className='detail' dangerouslySetInnerHTML={{__html: e.detail}}></div>
@@ -314,12 +310,12 @@ const PostView = () => {
                         <div className="button-area1">
                             <button onClick={onClickLike}>{likeChecked === true ? <i className="bi bi-heart"></i> : <i className="bi bi-heart-fill"></i>}</button>
                             <Link to='/board'><button className='btn left-space'>BACK</button></Link>
-                            {getId === e.id ? <><button className='btn left-space' onClick={onClickEdit}>EDIT</button><button className='btn left-space' onClick={deleteData}>DELETE</button></> : null}
+                            {getId === e.writerId ? <><button className='btn left-space' onClick={onClickEdit}>EDIT</button><button className='btn left-space' onClick={deleteData}>DELETE</button></> : null}
                         </div>
                     </>))}
                         <h3>댓글</h3>
                         <div className='comment_box'>
-                        <table>
+                        {/* <table>
                             <tr>
                                 <th>Writer</th>
                                 <th>Comment</th>
@@ -332,7 +328,7 @@ const PostView = () => {
                                     <td>{date}</td>
                                 </tr>
                             ))}
-                        </table>
+                        </table> */}
                     {/* <div>
                         <ul className="page_list">
                             <li><span onclick = {()=> setPage(page - 1)} disabled = {page === 1}>«</span></li>
@@ -344,8 +340,8 @@ const PostView = () => {
                     </div> */}
                     </div>
                     <div className="button-area2">
-                    <input type='text' className='comment_text' placeholder='댓글 달기...' value={comments} onChange={onChangeComments} name='comments' size='60'></input>
-                    <button className='comment_btn' onClick={onClickSaveComments}>SAVE</button>
+                    {/* <input type='text' className='comment_text' placeholder='댓글 달기...' value={comments} onChange={onChangeComments} name='comments' size='60'></input>
+                    <button className='comment_btn' onClick={onClickSaveComments}>SAVE</button> */}
                     </div>
             </Section>
             <div className="copy">&#169; Plannet.</div>

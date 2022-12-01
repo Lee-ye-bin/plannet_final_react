@@ -209,7 +209,7 @@ function Edit() {
     useEffect(() => {
         const boardData = async () => {
             try {
-                const response = await Api.boardLoad(getNum);
+                const response = await Api.postView(getNum);
                 setBoardLoad(response.data);
                 setTitle(response.data[0].title);
                 setDetail(response.data);
@@ -223,14 +223,14 @@ function Edit() {
     // 해당 게시물 번호에 해당하는 Edit 페이지로 이동
     const onClickEdit = async() => {
         await Api.boardEdit(getId, getNum, title, detail);
-        const link = "/postView/" + getNum;
+        const link = "post_view/" + getNum;
         window.location.assign(link);
         window.localStorage.setItem("boardNo", getNum);
     }
 
     // 취소 버튼 클릭 시 게시물 번호에 해당하는 postView 페이지로 이동
     const onClickCancle = () => {
-        const link = "/postView/" + getNum;
+        const link = "/board/post_view/" + getNum;
         window.location.assign(link);
         window.localStorage.setItem("boardNo", getNum);
     }

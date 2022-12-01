@@ -28,7 +28,7 @@ function App() {
                 <Route path="/board" element={<PrivateRoute><Board /></PrivateRoute>}/>
                 <Route path="/create" element={<PrivateRoute><Create /></PrivateRoute>}/>
                 <Route path="/edit/:no" element={<PrivateRoute><Edit /></PrivateRoute>}/>
-                <Route exact path='/postView/:no' element={<PrivateRoute><PostView /></PrivateRoute>}/>
+                <Route exact path='/board/post_view/:no' element={<PrivateRoute><PostView /></PrivateRoute>}/>
             </Routes>
         </Router>
     );
