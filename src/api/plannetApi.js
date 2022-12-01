@@ -31,7 +31,7 @@ const plannetApi = {
             uni: uni,
             type: type
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberCheck", regCheck, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/overlap_check", regCheck, HEADER);
     },
     // 회원 탈퇴
     memberDelete: async function(id) {
