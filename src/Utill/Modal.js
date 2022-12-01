@@ -13,6 +13,8 @@ const Modal = (props) => {
         window.localStorage.setItem("userId", "");
         window.localStorage.setItem("isLogin", "false");
         window.location.replace("/");
+        window.localStorage.removeItem("writerId");
+
     }
     const onClickWithdraw = async() => {
         await Api.memberDelete(getId);
