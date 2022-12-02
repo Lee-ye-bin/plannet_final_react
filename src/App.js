@@ -13,6 +13,7 @@ import Edit from './Board/Edit';
 import PostView from './Board/PostView';
 import PublicRoute from './Lib/PublicRoute';
 import PrivateRoute from './Lib/PrivateRoute';
+import Friend from './Friend/Friend';
 
 function App() {
     return (
@@ -24,6 +25,7 @@ function App() {
                 <Route path='/find' element={<PublicRoute><Find /></PublicRoute>}/>
                 <Route path="/setting" element={<PrivateRoute><Setting /></PrivateRoute>}/>
                 <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>}/>
+                <Route path="/friend" element={<PrivateRoute><Friend /></PrivateRoute>}/>
                 <Route path="/write/:date" element={<PrivateRoute><Write /></PrivateRoute>}/>
                 <Route path="/board" element={<PrivateRoute><Board /></PrivateRoute>}/>
                 <Route path="/create" element={<PrivateRoute><Create /></PrivateRoute>}/>

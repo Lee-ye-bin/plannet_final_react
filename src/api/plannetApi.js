@@ -38,7 +38,7 @@ const plannetApi = {
         const memberObj = {
             id: id,
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberDelete", memberObj, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/member_delete", memberObj, HEADER);
     },
     // 회원 아이디, 비밀번호 찾기
     memberFind: async function(uni, email, type){
@@ -109,9 +109,9 @@ const plannetApi = {
     // 글 삭제
     boardDelete: async function(num) {
         const object = {
-            num: num
+            num : num
         };
-        return await axios.post(PLANNET_DOMAIN + "BoardDelete", object, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "board/delete", object, HEADER);
     },
     // 글 수정
     boardEdit: async function(id, num, title, detail) {
@@ -137,15 +137,11 @@ const plannetApi = {
     },
     // 해당 게시물에 댓글 작성
     boardCommentCreate: async function(boardNo, id, detail){
-        const object = {
-            boardNo: boardNo,
-            id: id,
-            detail: detail
-        };
-        return await axios.post(PLANNET_DOMAIN + "board/comment_write", object, HEADER);
+        return await axios.get(PLANNET_DOMAIN + `board/comment_write?boardNo=${boardNo}&id=${id}&detail=${detail}`, HEADER);
     },
     // 해당 게시물에 작성된 댓글 불러오기
     boardCommentLoad: async function(boardNo){
+        console.log(boardNo);
         const object = {
             boardNo : boardNo
         };

@@ -84,7 +84,7 @@ const Section = styled.div`
                 /*스크롤바 뒷 배경 색상*/
             }
             &:focus{
-            border: 2px solid #f0f0f0;
+                border: 2px solid #f0f0f0;
             }
         }
     }

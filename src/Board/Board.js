@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Nav from "../Utill/Nav";
 import Api from '../api/plannetApi'
@@ -123,8 +123,6 @@ const Section = styled.div`
 const Board = () => {
     // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
-    const getNum = window.localStorage.getItem("boardNo");
-    const getWriterId = window.localStorage.getItem("writerId");
 
     // 값 불러오기 & 값 
     const [boardList, setBoardList] = useState([]); // boardList 불러오기
@@ -137,20 +135,21 @@ const Board = () => {
     const offset = (page - 1) * limit; // 게시물 위치 계산
     const numPages = Math.ceil(boardList.length / limit); // 필요한 페이지 개수
     
-    
     //날짜 클릭시 해당 번호의 postView로 이동
     const onClickBoard = (boardNo, writerId) => {
         const link = "board/post_view/" + boardNo;
         window.location.assign(link);
-        window.localStorage.setItem("boardNo",boardNo);
-        window.localStorage.setItem("writerId", writerId);
-        if(getWriterId !== getId) viewsUp();
+       
+        // 글 작성자와 회원 아이디가 다를 때만 해당 boardNo 게시물 조회수 +1
+        // 이전에는 localStorage에 writerId와 boardNo를 저장해서 이것들을 이용했지만 그러면 익명 보장이 안 됨
+        // 그래서 프론트에서 writerId와 userId를 비교하고, boardNo를 viewUp 메소드의 매개변수로 넘겨야 함
+        if(writerId !== getId) viewsUp(boardNo); 
     }
 
     // 조회수 +1
-    const viewsUp = async () => {
+    const viewsUp = async (boardNo) => {
         try {
-            const response = await Api.boardViewsUp(getNum);
+            const response = await Api.boardViewsUp(boardNo);
             setViewsUp(response.data);
         } catch (e) {console.log(e);}
     };

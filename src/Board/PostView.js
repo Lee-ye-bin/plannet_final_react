@@ -208,8 +208,8 @@ const Section = styled.div`
 const PostView = () => {
     // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
-    let params = useParams(); // url에서 boardNo 가져옴
-    let getNum = params.no; 
+    let params = useParams(); // url에서 boardNo를 가져오기 위해 uesParams() 사용
+    let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
 
     const [postViewData, setPostViewData] = useState(); // 해당 게시물 번호의 내용 로드 (좋아요 제외)
     const [likeCntData, setLikeCnt] = useState(); // 좋아요 수 로드
@@ -255,8 +255,7 @@ const PostView = () => {
     const onChangeComments = (e) => {
         setComments(e.target.value);
     }
-
-    // 댓글 수정 (수정중)
+    // 댓글 저장
     const onClickSaveComments = async() => {
         await Api.boardCommentCreate(getNum, getId, comments);
         const nextPlanList = commentsList.concat({
@@ -265,7 +264,7 @@ const PostView = () => {
             id: getId,
         });
         setCommentsList(nextPlanList);
-        setComments("");
+        //setComments("");
     } 
     
     // 본문 불러오기
@@ -286,7 +285,8 @@ const PostView = () => {
 
                 // 댓글 불러오기 (수정중)
                 const response4 = await Api.boardCommentLoad(getNum);
-                window.localStorage.setItem("commentNum",response4.data.value[1]);
+                console.log(response4);
+                // window.localStorage.setItem("commentNum",response4.data.value[1]);
                 setCommentsList(response4.data);
             } catch (e) {
                 console.log(e);
@@ -294,7 +294,8 @@ const PostView = () => {
         };
         postViewLoad();
     }, [getNum]);
-    
+    console.log(commentsList);
+
     return(
         <Wrap>
             <Nav/>
@@ -315,6 +316,13 @@ const PostView = () => {
                                 <td><i class="bi bi-eye"></i>{e.views}<i class="bi bi-heart-fill"></i>{likeCntData}</td>
                                 <td>{e.writeDate}</td>
                             </tr>
+                            {commentsList.slice(offset, offset+limit).map(({no, id, nickname, detail, date})=>(
+                                <tr key={no}>
+                                    <td>{nickname}</td>
+                                    <td>{detail}</td>
+                                    <td>{date}</td>
+                                </tr>
+                            ))}
                         </table>
                         <div className='detail' dangerouslySetInnerHTML={{__html: e.detail}}></div>
                     </div>
