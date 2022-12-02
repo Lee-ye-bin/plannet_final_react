@@ -93,8 +93,8 @@ const Section = styled.div`
                 list-style-type: none;
                 display: inline; 
                 padding: 0px 5px;
-                cursor: pointer;
                 span {
+                    cursor: pointer;
                     width: 25px;
                     text-align: center;
                     line-height: 25px;
@@ -107,7 +107,7 @@ const Section = styled.div`
                     &:active {background-color: #4555AE; color: #fff;}
                     &:hover {color:#0d3c01; font-weight: bold;}
                     &[aria-current] {background-color: #4555AE; color:white;}
-                    &[disabled] {background: #eee; cursor: revert; transform: revert;}
+                    &[disabled] {cursor: default; pointer-events: none; background: #eee;}
                 }
             } 
         }
