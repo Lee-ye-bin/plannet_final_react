@@ -208,8 +208,7 @@ const Section = styled.div`
 const PostView = () => {
     // localStorage 저장 정보
     const getId = window.localStorage.getItem("userId");
-    const getWriterId = window.localStorage.getItem("writerId");
-    let params = useParams(); // url에서 boardNo와서 let params에 대입해줌
+    let params = useParams(); // url에서 boardNo를 가져오기 위해 uesParams() 사용
     let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
 
     const [postViewData, setPostViewData] = useState(); // 해당 게시물 번호의 내용 로드 (좋아요 제외)
