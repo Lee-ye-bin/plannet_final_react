@@ -316,13 +316,6 @@ const PostView = () => {
                                 <td><i class="bi bi-eye"></i>{e.views}<i class="bi bi-heart-fill"></i>{likeCntData}</td>
                                 <td>{e.writeDate}</td>
                             </tr>
-                            {commentsList.slice(offset, offset+limit).map(({no, id, nickname, detail, date})=>(
-                                <tr key={no}>
-                                    <td>{nickname}</td>
-                                    <td>{detail}</td>
-                                    <td>{date}</td>
-                                </tr>
-                            ))}
                         </table>
                         <div className='detail' dangerouslySetInnerHTML={{__html: e.detail}}></div>
                     </div>
@@ -342,7 +335,7 @@ const PostView = () => {
                         </tr>
                         {commentsList.slice(offset, offset+limit).map(({no, id, nickname, detail, date})=>(
                             <tr key={no}>
-                                <td>{id}</td>
+                                <td>{nickname}</td>
                                 <td>{detail}</td>
                                 <td>{date}</td>
                             </tr>
