@@ -123,21 +123,17 @@ const plannetApi = {
         };
         return await axios.post(PLANNET_DOMAIN + "board/edit", object, HEADER);
     },
-    // // 좋아요 수 불러오기
-    // likeCnt: async function(id, num) {
-    //     const object = {
-    //         id: id,
-    //         num: num
-    //     };
-    //     return await axios.post(PLANNET_DOMAIN + "LikeCnt", object, HEADER);
-    // },
+    // 좋아요 수 불러오기
+    likeCnt: async function(boardNo) {
+        return await axios.get(PLANNET_DOMAIN + `board/like_cnt?boardNo=${boardNo}`, HEADER);
+    },
+    // 좋아요 여부 불러오기
+    likeChecked: async function(id, boardNo) {
+        return await axios.get(PLANNET_DOMAIN + `board/like_checked?id=${id}&boardNo=${boardNo}`, HEADER);
+    },
     // 해당 게시물에 좋아요를 눌렀는지 체크
-    likeChecked: async function(id, num) {
-        const object = {
-            id: id,
-            num: num
-        };
-        return await axios.post(PLANNET_DOMAIN + "board/like_checked", object, HEADER);
+    likeCheckedToggle: async function(id, boardNo) {
+        return await axios.get(PLANNET_DOMAIN + `board/like_checked_toggle?id=${id}&boardNo=${boardNo}`,HEADER);
     },
     // 해당 게시물에 댓글 작성
     boardCommentCreate: async function(boardNo, id, detail){
