@@ -236,7 +236,6 @@ const Write = () => {
         const writeLoad = async() => {
             try{
                 const response = await Api.writeLoad(getId, date);
-                console.log("들어옴");
                 console.log(response.data[0]);
                 setPlanList(response.data[0]);
                 setDiary(response.data[1]);
@@ -250,8 +249,9 @@ const Write = () => {
 
     const onClickSave = async() => {
         console.log(planList);
+        console.log(diary);
         await Api.writeSave(getId, date, planList, diary);
-        // window.location.replace("/home");
+        window.location.replace("/home");
     }
 
     return (
