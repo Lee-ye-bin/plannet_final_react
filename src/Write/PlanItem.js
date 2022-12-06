@@ -20,6 +20,7 @@ const StyledInput = styled.input`
     }
 `;
 
+// planList의 id(Plan 엔티티의 planNo에 해당)를 key로 수정해서 모두 key로 바꿔줌
 const PlanItem = ({planItem, planList, setPlanList}) => {
     const [edited, setEdited] = useState(false);
     const [newText, setNewText] = useState(planItem.text);
@@ -27,7 +28,7 @@ const PlanItem = ({planItem, planList, setPlanList}) => {
     const onChangeCheckbox = () => {
         const nextPlanList = planList.map((item) => ({
             ...item,
-            checked: item.id === planItem.id ? !item.checked : item.checked,
+            checked: item.key === planItem.key ? !item.checked : item.checked,
         }));
         setPlanList(nextPlanList);
     }
@@ -42,7 +43,7 @@ const PlanItem = ({planItem, planList, setPlanList}) => {
         if(newText.length > 0){
             const nextPlanList = planList.map((item) => ({
                 ...item,
-                text: item.id === planItem.id ? newText : item.text,
+                text: item.key === planItem.key ? newText : item.text,
             }));
             setPlanList(nextPlanList);
             setEdited(false);
@@ -57,7 +58,7 @@ const PlanItem = ({planItem, planList, setPlanList}) => {
     const onClickRemove = (e) => {
         const nextPlanList = planList.map((item) => ({
             ...item,
-            deleted: item.id === planItem.id ? !item.deleted : item.deleted,
+            deleted: item.key === planItem.key ? !item.deleted : item.deleted,
         }));
         setPlanList(nextPlanList);
     }
