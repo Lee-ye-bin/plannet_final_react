@@ -93,8 +93,8 @@ const Section = styled.div`
                 list-style-type: none;
                 display: inline; 
                 padding: 0px 5px;
-                cursor: pointer;
                 span {
+                    cursor: pointer;
                     width: 25px;
                     text-align: center;
                     line-height: 25px;
@@ -107,7 +107,7 @@ const Section = styled.div`
                     &:active {background-color: #4555AE; color: #fff;}
                     &:hover {color:#0d3c01; font-weight: bold;}
                     &[aria-current] {background-color: #4555AE; color:white;}
-                    &[disabled] {background: #eee; cursor: revert; transform: revert;}
+                    &[disabled] {cursor: default; pointer-events: none; background: #eee;}
                 }
             } 
         }
@@ -130,10 +130,23 @@ const Board = () => {
     const [views, setViewsUp] = useState(0); // 게시물 클릭 시 작성자와 로그인 ID가 다를 경우에만 조회수 +1
     
     // 페이지네이션
-    const [limit, setLimit] = useState(15);  // 페이지당 게시물 수 (현재는 15개 고정)
+    const limit = 15; // 페이지당 게시물 수 (현재는 15개 고정)
     const [page, setPage] = useState(1); // 현재 페이지 번호
-    const offset = (page - 1) * limit; // 게시물 위치 계산
+    const offset = (page - 1) * limit; // 게시물 위치 계산, 시작점과 끝점을 구하는 offset
     const numPages = Math.ceil(boardList.length / limit); // 필요한 페이지 개수
+    const [currPage, setCurrPage] = useState(page)
+    let firstNum = currPage - (currPage % 5) + 1
+    let lastNum = currPage - (currPage % 5) + 5
+
+
+    const postsData = (posts) => {
+      if(posts){
+        let result = posts.slice(offset, offset + limit);
+        return result;
+      }
+    }
+
+
     
     //날짜 클릭시 해당 번호의 postView로 이동
     const onClickBoard = (boardNo, writerId) => {
@@ -200,15 +213,20 @@ const Board = () => {
                 </div>
                 <div className="util_box">
                     <ul className="page_list">
-                        <li><span onClick = {()=> setPage(page - 1)} disabled = {page === 1}>«</span></li>
+                        <li><span onClick = {()=> {setPage(page - 1); setCurrPage(page-2);}} disabled = {page === 1}>«</span></li>
+                        <li><span onClick = {() => setPage(firstNum)} aria-current={page === firstNum ? "page" : null}>{firstNum}</span></li>
                         {/*Array(numPages) :  페이지 수만큼의 size를 가지고 있는 배열을 생성하고 
                         .fill() : undefine으로 모든 칸 할당
                         .map(arr, i) : arr은 현재값, i는 인덱스로 각 자리 인덱스에 해당하는 값 할당 
                         Array(numPages).fill()의 값을 map()을 통해 하나씩 불러와 i로 return*/}
-                        {Array(numPages).fill().map((_, i) => (
-                        <li><span key={i + 1} onClick={() => setPage(i + 1)} aria-current={page === i + 1 ? "page" : null}>{i + 1}</span></li>
-                        ))}
-                        <li><span onClick = {()=> setPage(page + 1)} disabled = {page === numPages}>»</span></li>
+                        {Array(4).fill().map((_, i) => {
+                            if(i <= 2) {
+                                return (<li><span key={i + 1} onClick={() => {setPage(firstNum + i + 1)}} aria-current={page === firstNum + i + 1 ? "page" : null}>{firstNum + i + 1}</span></li>)
+                            } else if(i >= 3) {
+                                return (<li><span key={i + 1} onClick={() => setPage(lastNum)} aria-current={page === lastNum ? "page" : null}>{lastNum}</span></li>)
+                            }
+                        })}
+                        <li><span onClick = {()=> {setPage(page + 1); setCurrPage(page);}} disabled = {page === numPages}>»</span></li>
                     </ul> 
                     <form className="search" id="search" name="search" method="post">
                         <input name="product_search" title="검색" placeholder="검색어 입력"/>
