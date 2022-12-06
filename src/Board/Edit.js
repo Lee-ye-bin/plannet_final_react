@@ -200,8 +200,7 @@ const Section = styled.div`
 
 function Edit() {
     const getId = window.localStorage.getItem("userId");
-    const getWriterId = localStorage.getItem("writerId");
-    let params = useParams(); // url에서 boardNo와서 let params에 대입해줌
+    let params = useParams(); // url에서 boardNo를 가져오기 위해 uesParams() 사용
     let getNum = params.no; // params는 객체이기 때문에 풀어줘서 다시 getNum에 대입해줌
 
     const [boardLoad, setBoardLoad] = useState();
@@ -211,13 +210,17 @@ function Edit() {
     const [lengthCheck, setLengthCheck] = useState(false);
 
     useEffect(() => {
-        if(getId !== getWriterId) {
-            alert("본인의 글만 수정할 수 있습니다.")
-            window.location.replace("/home");
-        } 
         const boardData = async () => {
             try {
                 const response = await Api.postView(getNum);
+                // 다른 사용자의 게시물 Edit 페이지에 아예 주소접근으로도 못 하게 방지
+                // DB에서 해당 게시물의 작성자 아이디를 가져옴
+                let writerId = response.data[0].writerId;
+                if(getId !== writerId) { 
+                    alert("본인의 글만 수정할 수 있습니다.")
+                    window.location.replace("/home");
+                    return; // Edit 페이지 랜더링 되지 않도록 Home 페이지로 이동하고 useEffect에서 return
+                } 
                 setBoardLoad(response.data);
                 setTitle(response.data[0].title);
                 setDetail(response.data);

@@ -245,10 +245,10 @@ const Setting = () => {
     // 전화번호/이메일 중복확인
     const onBlurTelCheck = async() => {
         const memberCheck = await Api.memberRegCheck(changePhone, "TYPE_TEL");
-        if (memberCheck.data.result === "OK" ) {
+        if (memberCheck.data ) {
             setTelMessage("사용가능한 전화번호입니다.");
             setIsTel(true)
-        } else if(memberCheck.data.result === "NOK" && userPhone ===  changePhone){
+        } else if(memberCheck.data && userPhone ===  changePhone){
             setTelMessage("기존 전화번호입니다.");
             setIsTel(true);
         } else {
@@ -273,13 +273,13 @@ const Setting = () => {
     const onBlurEmailCheck = async() => {
         // 가입 여부 우선 확인
         const memberCheck = await Api.memberRegCheck(changeEmail, "TYPE_EMAIL");
-        if (memberCheck.data.result === "OK" && isEmail) {
+        if (memberCheck.data && isEmail) {
             setEmailMessage("사용가능한 Email입니다.");
             setIsEmail(true);
-        } else if(memberCheck.data.result === "OK" && !isEmail){
+        } else if(memberCheck.data && !isEmail){
             setEmailMessage("이메일의 형식이 올바르지 않습니다.");
             setIsEmail(false);
-        } else if(memberCheck.data.result === "NOK" && userEmail ===  changeEmail){
+        } else if(memberCheck.data && userEmail ===  changeEmail){
             setEmailMessage("기존 Email입니다.");
             setIsEmail(true);
         } else {

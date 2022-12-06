@@ -38,7 +38,7 @@ const plannetApi = {
         const memberObj = {
             id: id,
         };
-        return await axios.post(PLANNET_DOMAIN + "MemberDelete", memberObj, HEADER);
+        return await axios.post(PLANNET_DOMAIN + "member/member_delete", memberObj, HEADER);
     },
     // 회원 아이디, 비밀번호 찾기
     memberFind: async function(uni, email, type){
@@ -123,33 +123,25 @@ const plannetApi = {
         };
         return await axios.post(PLANNET_DOMAIN + "board/edit", object, HEADER);
     },
-    // // 좋아요 수 불러오기
-    // likeCnt: async function(id, num) {
-    //     const object = {
-    //         id: id,
-    //         num: num
-    //     };
-    //     return await axios.post(PLANNET_DOMAIN + "LikeCnt", object, HEADER);
-    // },
+    // 좋아요 수 불러오기
+    likeCnt: async function(boardNo) {
+        return await axios.get(PLANNET_DOMAIN + `board/like_cnt?boardNo=${boardNo}`, HEADER);
+    },
+    // 좋아요 여부 불러오기
+    likeChecked: async function(id, boardNo) {
+        return await axios.get(PLANNET_DOMAIN + `board/like_checked?id=${id}&boardNo=${boardNo}`, HEADER);
+    },
     // 해당 게시물에 좋아요를 눌렀는지 체크
-    likeChecked: async function(id, num) {
-        const object = {
-            id: id,
-            num: num
-        };
-        return await axios.post(PLANNET_DOMAIN + "board/like_checked", object, HEADER);
+    likeCheckedToggle: async function(id, boardNo) {
+        return await axios.get(PLANNET_DOMAIN + `board/like_checked_toggle?id=${id}&boardNo=${boardNo}`,HEADER);
     },
     // 해당 게시물에 댓글 작성
     boardCommentCreate: async function(boardNo, id, detail){
-        const object = {
-            boardNo: boardNo,
-            id: id,
-            detail: detail
-        };
-        return await axios.post(PLANNET_DOMAIN + "board/comment_write", object, HEADER);
+        return await axios.get(PLANNET_DOMAIN + `board/comment_write?boardNo=${boardNo}&id=${id}&detail=${detail}`, HEADER);
     },
     // 해당 게시물에 작성된 댓글 불러오기
     boardCommentLoad: async function(boardNo){
+        console.log(boardNo);
         const object = {
             boardNo : boardNo
         };
