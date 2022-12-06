@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as LogoImg } from "../Images/planet-001.svg";
 import Api from '../api/plannetApi';
@@ -25,6 +25,7 @@ const Logo = styled.div`
 `;
 
 const Join = () => {
+    const navigate = useNavigate();
     // 키보드 입력
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
@@ -171,7 +172,7 @@ const Join = () => {
         if(memberReg.data) {
             window.localStorage.setItem("userId", inputId);
             window.localStorage.setItem("isLogin", "true");
-            window.location.replace("/home");
+            navigate("/home");
         }
     }
 

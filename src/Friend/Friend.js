@@ -5,6 +5,7 @@ import FriendList from './FriendList';
 import FriendAdd from './FriendAdd';
 import Api from "../api/plannetApi";
 import Modal from '../Utill/Modal';
+import FriendNoti from './FriendNoti';
 
 const Wrap = styled.div`
     width: 1130px;
@@ -98,6 +99,10 @@ const Friend = () => {
         {proImg: "https://images.unsplash.com/photo-1668603145974-c05f7a0e4552?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}, 
         {proImg: "https://images.unsplash.com/photo-1669847171248-8f12c8160d57?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}]);
     
+    const [notiList, setNotiList] = useState([
+        {proImg: "https://images.unsplash.com/photo-1668603145974-c05f7a0e4552?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}, 
+        {proImg: "https://images.unsplash.com/photo-1669847171248-8f12c8160d57?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}]);
+    
     const [isAdd, setIsAdd] = useState(false);
 
     useEffect(() => {
@@ -138,7 +143,7 @@ const Friend = () => {
                 </div>
                 <div className='noti'>
                     <h2>Notification</h2>
-                    <div/>
+                    <FriendNoti notiList={notiList} setNotiList={setNotiList}/>
                 </div>
             </Section>
             <div className="copy">&#169; Plannet.</div>

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import Api from "../api/plannetApi";
 import Nav from "../Utill/Nav";
@@ -214,6 +214,7 @@ const Section = styled.div`
 `;
 
 const Write = () => {
+    const navigate = useNavigate();
     const getId = window.localStorage.getItem("userId");
     const { date } = useParams();
     const [planList, setPlanList] = useState([]);
@@ -247,7 +248,7 @@ const Write = () => {
 
     const onClickSave = async() => {
         await Api.writeSave(getId, date, planList, diary);
-        window.location.replace('/home');
+        navigate('/home');
     }
 
     return (

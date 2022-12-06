@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ReactComponent as LogoImg } from "../Images/planet-001.svg";
 import kakaoimg from "../Images/kakaotalk_logo2.png";
@@ -32,6 +32,7 @@ const Logo = styled.div`
 `;
 
 const DoLogin = () => {
+    const navigate = useNavigate();
     // 키보드 입력
     const [inputId, setInputId] = useState("");
     const [inputPw, setInputPw] = useState("");
@@ -65,7 +66,7 @@ const DoLogin = () => {
             if(res.data) {
                 window.localStorage.setItem("isLogin", "true");
                 window.localStorage.setItem("userId", inputId);
-                window.location.replace("/home");
+                navigate("/home");
             } else {
                 setCommnet("아이디 또는 비밀번호가 정확하지 않습니다.");
                 setModalOpen(true);
