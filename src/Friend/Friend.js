@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Nav from '../Utill/Nav';
+import FriendList from './FriendList';
+import FriendAdd from './FriendAdd';
 import Api from "../api/plannetApi";
+import Modal from '../Utill/Modal';
+import FriendNoti from './FriendNoti';
 
 const Wrap = styled.div`
     width: 1130px;
@@ -42,75 +46,7 @@ const Section = styled.div`
     }
     .friend {
         width: 70%;
-        padding-left: 30px;
-          &>div:last-child{
-            width: 100%;
-            height: px;
-            border-radius: 5px;
-            background-color: #f9f9f9;
-            overflow: hidden;
-            transition: all .5s ease-in;
-            margin-top: 10px;
-            text-align: center;
-            p{
-                position: relative;
-                top: 50%;
-                transform: translateY(-50%);
-                color: #d9d9d9;
-                b{
-                    color: #d9d9d9;
-                    font-size: 17px;
-                }
-            }
-            &::-webkit-scrollbar {
-                display: none;
-            }
-        }
-        div:first-of-type{
-            overflow: hidden;
-            transition: all .5s ease-in;
-            p{
-                height: 40px;
-                resize: none;
-                outline: none;
-                padding: 10px;
-                background-color: #f9f9f9;
-                border-radius: 5px;
-                border: 2px solid #f9f9f9;
-                transition: all .1s ease-in;
-                input {
-                    width: 345px;
-                    border: none;
-                    outline: none;
-                    background-color: #f9f9f9;
-                }
-                span{
-                    font-size: 13px;
-                    line-height: 16px;
-                    color: #888;
-                    font-weight: 400;
-                }
-                &:focus-within{
-                    border: 2px solid #f0f0f0;
-                }
-            }
-            button{
-                cursor: pointer;
-                padding: 5px 3px;
-                margin: 5px 0;
-                width: 100%;
-                border: none;
-                background-color: #333;
-                border-radius: 5px;
-                color: white;
-                transition: all .1s ease-in;
-                &:disabled, &:hover{
-                    background-color: #666;
-                    color: #aaa;
-                }
-            }
-        }
-        
+        padding-left: 30px;     
     }
     .noti {
         width: 30%;
@@ -137,23 +73,38 @@ const Section = styled.div`
             right: 0;
             font-size: 25px;
             line-height: 34px;
+            transition: color .3s ease-in;
             &:hover {
-                color: #888;
+                color: #555;
             }
-        }
-        .addActive{
-            color: #888;
-        }
+        }        
+    }
+    .add_active_logo{
+        color: #888;
+    }
+    .is_list{
+        background-color: white !important;
+    }
+    .add_active_box{
+        height: calc(100% - 160px) !important;
+    }
+    .add_active_addbox{
+        height: 80px !important;
     }
 `;
 
 const Friend = () => {
     const getId = window.localStorage.getItem("userId");
-    const [friendList, setFriendList] = useState();
-    const [addInput, setAddInput] = useState();
-    const [inputMessage, setInputMessage] = useState(''); 
-    const [isOk, setIsOk] = useState(true); 
-    const [isAdd, setIsAdd] = useState(false); 
+    const [friendList, setFriendList] = useState([
+        {proImg: "https://images.unsplash.com/photo-1668603145974-c05f7a0e4552?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}, 
+        {proImg: "https://images.unsplash.com/photo-1669847171248-8f12c8160d57?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}]);
+    
+    const [notiList, setNotiList] = useState([
+        {proImg: "https://images.unsplash.com/photo-1668603145974-c05f7a0e4552?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}, 
+        {proImg: "https://images.unsplash.com/photo-1669847171248-8f12c8160d57?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80", nickname: "안녕하세요", userCode: "#0000", profile: "자기소개입니다"}]);
+    
+    const [isAdd, setIsAdd] = useState(false);
+
     useEffect(() => {
         const personalHome = async() => {
             try{
@@ -165,51 +116,34 @@ const Friend = () => {
         personalHome();
     },[getId]);
 
-    const onChangeAddInput = (e) => {
-        const regex = /^([^#@:]\s?){2,32}#[0-9]{4}$/
-        const current = e.target.value;
-        setAddInput(current);
-        if (!regex.test(current)) {
-            setInputMessage('친구의 닉네임#유저코드 형식')
-            setIsOk(true)
-        } else {
-            setInputMessage('')
-            setIsOk(false);
-        }
-    }
+    
     const onClickaddFriend = (e) => {
         if(isAdd) setIsAdd(false);
         else setIsAdd(true);
     }
 
+    const [comment, setCommnet] = useState("");
+    const [modalHeader, setModalHeader] = useState("");
+    const [modalOpen, setModalOpen] = useState(false);
+
+    
+    const closeModal = () => {
+        setModalOpen(false);
+    };
+
     return (
         <Wrap>
+            <Modal open={modalOpen} close={closeModal} header={modalHeader}>{comment}</Modal>
             <Nav/>
             <Section>
                 <div className="friend">
-                    <h2>Friend<i className={'bi bi-person-fill-add ' + (isAdd? 'addActive' : '')} onClick={onClickaddFriend}></i></h2>
-                    <div style={isAdd? {height: '80px'} : {height: '0px'}}>
-                        <label>
-                            <p>
-                            
-                                <input type="text" maxLength={25} placeholder='Nickname#0000'value={addInput} onChange={onChangeAddInput}/>
-                                <span>{inputMessage}</span>
-                            </p>
-                        </label>
-                        <button disabled={isOk}>친구요청</button>
-                    </div>
-                    <div style={isAdd? {height: 'calc(100% - 160px)'} : {height: 'calc(100% - 80px)'}}>
-                        {friendList? friendList.map(e =>{return(
-                            <>
-                            </>
-                        );})
-                        :
-                        <p><b>등록된 친구가 아직 없습니다.</b><br/>상단 오른쪽의 버튼을 눌러 친구를 추가해보세요!</p>}
-                    </div>
+                    <h2>Friend<i className={'bi bi-person-fill-add ' + (isAdd? 'add_active_logo' : '')} onClick={onClickaddFriend}></i></h2>
+                    <FriendAdd setCommnet={setCommnet} setModalHeader={setModalHeader} setModalOpen={setModalOpen} isAdd={isAdd} />
+                    <FriendList setCommnet={setCommnet} setModalHeader={setModalHeader} setModalOpen={setModalOpen} friendList={friendList} isAdd={isAdd}/>
                 </div>
                 <div className='noti'>
                     <h2>Notification</h2>
-                    <div/>
+                    <FriendNoti notiList={notiList} setNotiList={setNotiList}/>
                 </div>
             </Section>
             <div className="copy">&#169; Plannet.</div>
