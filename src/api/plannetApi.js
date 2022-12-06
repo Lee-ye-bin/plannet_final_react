@@ -87,6 +87,10 @@ const plannetApi = {
     boardList: async function(){
         return await axios.get(PLANNET_DOMAIN + "board/list", HEADER);
     },
+    // 자유게시판 검색 목록 출력
+    searchList: async function(keyword){
+        return await axios.get(PLANNET_DOMAIN + `board/search_list?keyword=${keyword}`, HEADER);
+    },
     // 자유게시판 글 작성
     boardCreate: async function(id, title, detail, isChecked){
         const object = {

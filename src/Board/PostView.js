@@ -248,7 +248,6 @@ const PostView = () => {
         setLikeChecked(likeChecked.data);
         if (likeCheckedData) setLikeCnt(likeCntData - 1);
         else (setLikeCnt(likeCntData + 1));
-
     }
 
     // 댓글 입력
