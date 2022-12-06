@@ -34,6 +34,10 @@ const Modal = (props) => {
         await Api.boardDelete(boardNo);
         window.location.replace("/board");
     }
+    const onClickUnfriend = async() => { //수정해야함
+        // await Api.boardDelete(boardNo);
+        window.location.replace("/friend");
+    }
     return (
         <div className={open ? 'openModal modal' : 'modal'}>
             {open && 
@@ -51,6 +55,7 @@ const Modal = (props) => {
                         {(header === '로그인') ? <button className='yes btn-m' onClick={onClickGoLogin}>login</button>: ''}
                         {(header === '글수정삭제' && option === '수정') ? <button className='yes btn-m' onClick={onClickEdit}>yes</button>: ''}
                         {(header === '글수정삭제' && option === '삭제') ? <button className='yes btn-m' onClick={onClickDelete}>yes</button>: ''}
+                        {(header === '친구삭제') ? <button className='yes btn-m' onClick={onClickUnfriend}>yes</button>: ''}
                         <button className='close' onClick={close}>close</button>
                     </footer>
                 </section>
