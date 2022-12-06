@@ -4,7 +4,6 @@ const PlanList = ({planList, setPlanList}) => {
     return(
         <ul>
             {planList && planList.map((planItem) => {
-                console.log(planList);
                 if(planItem.deleted) return null;
                 else return(
                     <PlanItem 
