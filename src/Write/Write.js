@@ -249,8 +249,6 @@ const Write = () => {
     },[getId, date]);
 
     const onClickSave = async() => {
-        console.log(planList);
-        console.log(diary);
         await Api.writeSave(getId, date, planList, diary);
         navigate('/home');
     }
