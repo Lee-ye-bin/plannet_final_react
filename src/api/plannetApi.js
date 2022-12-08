@@ -190,6 +190,14 @@ const plannetApi = {
             id: id
         };
         return await axios.post(PLANNET_DOMAIN + "home/personal", object, HEADER);
+    },
+    // 공유 캘린더 생성
+    boardCreate: async function(id, title) {
+        const object = {
+            id: id,
+        title: title
+        };
+        return await axios.post(PLANNET_DOMAIN + "scal/create", object, HEADER);
     }
 }
 
